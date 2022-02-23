@@ -142,10 +142,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Verify"
+            android:onClick="OTPVerification"
             android:layout_marginTop="50sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linkForOTP"/>
+            app:layout_constraintTop_toBottomOf="@id/linkForOTP"
+            tools:ignore="UsingOnClickInXml" />
 
         <Button
             android:id="@+id/btn_cancel"
