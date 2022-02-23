@@ -16,9 +16,6 @@
             android:name=".CNIC_Availability"
             android:exported="true" />
         <activity
-            android:name=".CNIC_Availibility"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
