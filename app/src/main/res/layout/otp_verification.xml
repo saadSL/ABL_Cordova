@@ -61,7 +61,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
 
             <EditText
@@ -69,7 +69,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
 
             <EditText
@@ -77,7 +77,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
 
             <EditText
@@ -85,7 +85,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
 
             <EditText
@@ -93,7 +93,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
 
             <EditText
@@ -101,7 +101,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15sp"
-                android:text="-"
+                android:hint="-"
                 android:textAlignment="center" />
         </LinearLayout>
 
