@@ -57,7 +57,7 @@ public class OTP_Verification extends AppCompatActivity {
             Toast.makeText(view.getContext(),"OTP fields Empty",Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(view.getContext(),"We can proceed",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(OTP_Verification.this,FingerPrintActivity.class));
     }
 
     public Boolean isEmpty(EditText et) {
