@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ABL Cordova</string>
+    <string name="OTP_link"><a href="#">Click here</a>To Resend OTP</string>
 </resources>
