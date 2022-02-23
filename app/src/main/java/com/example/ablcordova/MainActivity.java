@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cnicActivity(View view) {
-        Intent i = new Intent(view.getContext(),OTP_Verification.class);
+        Intent i = new Intent(view.getContext(),CNIC_Availability.class);
         startActivity(i);
     }
 }

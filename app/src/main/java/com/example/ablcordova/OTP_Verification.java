@@ -2,6 +2,7 @@ package com.example.ablcordova;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -28,6 +29,11 @@ public class OTP_Verification extends AppCompatActivity {
         otp5 = findViewById(R.id.et_otp5);
         otp6 = findViewById(R.id.et_otp6);
 
+        Intent i = getIntent();
+
+        System.out.println(i.getStringExtra(CNIC_Availability.ACCOUNT_NUMBER));
+        System.out.println(i.getStringExtra(CNIC_Availability.CNIC_NUMBER));
+
     }
 
     public void OTPVerification(View view) {
@@ -47,5 +53,9 @@ public class OTP_Verification extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void cancelActivity(View view) {
+        finish();
     }
 }

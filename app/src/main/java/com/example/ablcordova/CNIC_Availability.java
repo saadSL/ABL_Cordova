@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class CNIC_Availability extends AppCompatActivity {
+    public static String ACCOUNT_NUMBER = "account_number";
+    public static String CNIC_NUMBER = "cnic_number";
+
 
     private EditText etAccNumber;
     private EditText etCnicNumber;
@@ -38,7 +42,10 @@ public class CNIC_Availability extends AppCompatActivity {
             Toast.makeText(view.getContext(),"Please fill all * fields",Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(view.getContext(),"All set",Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(view.getContext(),OTP_Verification.class);
+        i.putExtra(ACCOUNT_NUMBER,etAccNumber.getText().toString());
+        i.putExtra(CNIC_NUMBER,etCnicNumber.getText().toString());
+        startActivityForResult(i,1);
     }
 
     public Boolean isEmpty(EditText et) {
