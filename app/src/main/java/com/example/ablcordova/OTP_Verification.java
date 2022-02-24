@@ -27,13 +27,11 @@ public class OTP_Verification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp_verification);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.otp_toolbar);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000FF")));
-
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.otp_toolbar);
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000FF")));
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         otp1 = findViewById(R.id.et_otp1);
         otp2 = findViewById(R.id.et_otp2);
@@ -44,6 +42,7 @@ public class OTP_Verification extends AppCompatActivity {
 
         Intent i = getIntent();
 
+        //Printing For testing purpose
         System.out.println(i.getStringExtra(CNIC_Availability.ACCOUNT_NUMBER));
         System.out.println(i.getStringExtra(CNIC_Availability.CNIC_NUMBER));
 

@@ -14,9 +14,11 @@
             android:name=".FingerPrintActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".OTP_Verification"
             android:exported="true" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".CNIC_Availability"
             android:exported="true" />
         <activity

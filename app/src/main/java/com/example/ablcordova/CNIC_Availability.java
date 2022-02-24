@@ -27,11 +27,6 @@ public class CNIC_Availability extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cnic_availability);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.cnic_toolbar);
-//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0F9D58"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFA500")));
-
 
         etAccNumber = findViewById(R.id.et_accNumber);
         etCnicNumber = findViewById(R.id.et_cnicNumber);
