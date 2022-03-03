@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 public class FingerPrintActivity extends AppCompatActivity {
 
-    private Button btSubmit;
+    private Button btSubmit,btCancel;
     private ImageView ivFingerPrint, ivBack;
     private LinearLayout liSuccess;
 
@@ -35,6 +35,14 @@ public class FingerPrintActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void submitFingerPrint() {
@@ -45,6 +53,7 @@ public class FingerPrintActivity extends AppCompatActivity {
 
     private void bindViews() {
         ivBack = findViewById(R.id.iv_back);
+        btCancel = findViewById(R.id.bt_cancel);
         btSubmit = findViewById(R.id.bt_submit);
         ivFingerPrint = findViewById(R.id.iv_finger_print);
         liSuccess = findViewById(R.id.li_success);

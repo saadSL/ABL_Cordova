@@ -77,9 +77,8 @@ public class OTP_Verification extends AppCompatActivity {
         String otp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
 
         OtpPostParams otpPostParams = new OtpPostParams();
-        String encryptedOtp = encrypt(otp);
-        otpPostParams.getData().setOtp(encryptedOtp);
-        System.out.println("In Otp : "+otpPostParams.getData().getOtp());
+
+        otpPostParams.getData().setOtp(encrypt(otp));
         otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
        myViewModel vm = new myViewModel();
@@ -92,6 +91,7 @@ public class OTP_Verification extends AppCompatActivity {
                Intent i = new Intent(view.getContext(),FingerPrintActivity.class);
                i.putExtra(Config.RESPONSE,otpResponse);
                startActivity(i);
+               clearFields();
            }
        });
 
@@ -99,9 +99,19 @@ public class OTP_Verification extends AppCompatActivity {
            @Override
            public void onChanged(String s) {
                Toast.makeText(OTP_Verification.this,s,Toast.LENGTH_SHORT).show();
+                clearFields();
            }
        });
 //        startActivity(new Intent(OTP_Verification.this, FingerPrintActivity.class));
+    }
+
+    private void clearFields() {
+        otp1.setText("");
+        otp2.setText("");
+        otp3.setText("");
+        otp4.setText("");
+        otp5.setText("");
+        otp6.setText("");
     }
 
     public Boolean isEmpty(EditText et) {
