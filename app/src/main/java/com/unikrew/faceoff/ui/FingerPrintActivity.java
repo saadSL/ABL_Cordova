@@ -22,9 +22,11 @@ import com.unikrew.faceoff.Config;
 import com.unikrew.faceoff.R;
 import com.unikrew.faceoff.fingerprint.Customization.CustomUI;
 import com.unikrew.faceoff.fingerprint.FingerprintConfig;
+import com.unikrew.faceoff.fingerprint.FingerprintResponse;
 import com.unikrew.faceoff.fingerprint.FingerprintScannerActivity;
 import com.unikrew.faceoff.fingerprint.LivenessNotSupportedException;
 import com.unikrew.faceoff.fingerprint.NadraConfig;
+import com.unikrew.faceoff.fingerprint.ResultIPC;
 
 public class FingerPrintActivity extends AppCompatActivity {
 
@@ -156,5 +158,72 @@ public class FingerPrintActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Config.REQ_SCAN_FINGERPRINT & data != null) {
+            // Getting fingerprintResponse from intent
+            int responseCode = data.getIntExtra(FingerprintScannerActivity.FINGERPRINT_RESPONSE_CODE, -1);
+            if (responseCode > 0) {
+                FingerprintResponse fingerprintResponse = ResultIPC.getInstance().getFingerprintResponse(responseCode);
+                if (fingerprintResponse != null) {
+                    // If scanning and NADRA request were successful
+                    if (resultCode == FingerprintResponse.Response.SUCCESS_NADRA.getResponseCode()) {
+                        showNadraResults(responseCode);
+                    }
+
+                    // If scanning and ENROLLMENT request were successful
+                    else if (resultCode == FingerprintResponse.Response.SUCCESS_ENROLLMENT.getResponseCode()) {
+                        toastMessage("Fingerprint successfully enrolled");
+                    }
+
+                    // If scanning and IDENTIFICATION request were successful
+                    else if (resultCode == FingerprintResponse.Response.SUCCESS_IDENTIFICATION.getResponseCode()) {
+                        showIdentificationResults(responseCode);
+                    }
+
+                    // If scanning and EXPORT WSQ request were successful
+                    else if (resultCode == FingerprintResponse.Response.SUCCESS_WSQ_EXPORT.getResponseCode()
+                            || resultCode == FingerprintResponse.Response.SUCCESS_PNG_EXPORT.getResponseCode()) {
+                        showFingerprints(responseCode);
+                    }
+
+                    // If unsuccessful, toast error message
+                    else {
+                        toastMessage(fingerprintResponse.getResponse().getResponseMessage());
+                    }
+                } else {
+                    toastMessage("Fingerprint Response is null!");
+                }
+            } else {
+                toastMessage("Could not receive response!");
+            }
+        }
+    }
+
+    private void showFingerprints(int responseCode) {
+        Intent intent = new Intent(this, ViewFingerprintActivity.class);
+        intent.putExtra(Config.KEY_RESPONSE_CODE, responseCode);
+        startActivity(intent);
+    }
+
+    private void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNadraResults(int responseCode) {
+//        // Send 'nadraResponse' to 'NadraActivity' and launch it to view results
+//        Intent intent = new Intent(this, NadraActivity.class);
+//        intent.putExtra(Config.KEY_RESPONSE_CODE, responseCode);
+//        startActivity(intent);
+    }
+
+    private void showIdentificationResults(int responseCode) {
+//        Intent intent = new Intent(this, IdentificationResultsActivity.class);
+//        intent.putExtra(Constants.KEY_RESPONSE_CODE, responseCode);
+//        startActivity(intent);
     }
 }
