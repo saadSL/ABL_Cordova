@@ -11,18 +11,18 @@
         android:theme="@style/Theme.ABLCordova">
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".FingerPrintActivity"
+            android:name=".ui.FingerPrintActivity"
             android:exported="false" />
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".OTP_Verification"
+            android:name=".ui.OtpVerificationActivity"
             android:exported="true" />
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".CNIC_Availability"
+            android:name=".ui.CnicAvailabilityActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

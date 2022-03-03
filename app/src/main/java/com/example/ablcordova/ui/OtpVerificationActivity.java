@@ -1,4 +1,4 @@
-package com.example.ablcordova;
+package com.example.ablcordova.ui;
 
 import android.content.Intent;
 import android.os.Build;
@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
+import com.example.ablcordova.Config;
+import com.example.ablcordova.R;
 import com.example.ablcordova.model.OtpPostParams;
 import com.example.ablcordova.model.OtpResponse;
 import com.example.ablcordova.model.ResponseDTO;
@@ -33,7 +34,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class OTP_Verification extends AppCompatActivity {
+public class OtpVerificationActivity extends AppCompatActivity {
 
     private EditText otp1;
     private EditText otp2;
@@ -82,7 +83,7 @@ public class OTP_Verification extends AppCompatActivity {
         System.out.println("In Otp : "+otpPostParams.getData().getOtp());
         otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
-       myViewModel vm = new myViewModel();
+       CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
        vm.postOtp(otpPostParams,res.getData().getAccessToken());
 
 
@@ -98,7 +99,7 @@ public class OTP_Verification extends AppCompatActivity {
        vm.OtpErrorLiveData.observe(this, new Observer<String>() {
            @Override
            public void onChanged(String s) {
-               Toast.makeText(OTP_Verification.this,s,Toast.LENGTH_SHORT).show();
+               Toast.makeText(OtpVerificationActivity.this,s,Toast.LENGTH_SHORT).show();
            }
        });
 //        startActivity(new Intent(OTP_Verification.this, FingerPrintActivity.class));

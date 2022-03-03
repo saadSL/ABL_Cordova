@@ -1,10 +1,12 @@
-package com.example.ablcordova;
+package com.example.ablcordova.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.ablcordova.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cnicActivity(View view) {
-        Intent i = new Intent(view.getContext(),CNIC_Availability.class);
+        Intent i = new Intent(view.getContext(), CnicAvailabilityActivity.class);
         startActivity(i);
     }
 

@@ -1,4 +1,4 @@
-package com.example.ablcordova;
+package com.example.ablcordova.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ablcordova.Config;
+import com.example.ablcordova.R;
 import com.example.ablcordova.model.CnicPostParams;
 import com.example.ablcordova.model.ResponseDTO;
 
-public class CNIC_Availability extends AppCompatActivity {
+public class CnicAvailabilityActivity extends AppCompatActivity {
 
     private EditText etAccNumber;
     private EditText etCnicNumber;
@@ -49,14 +51,14 @@ public class CNIC_Availability extends AppCompatActivity {
         CnicPostParams.getData().setCnic(etCnicNumber.getText().toString());
         CnicPostParams.getData().setAccountNo(etAccNumber.getText().toString());
 
-        myViewModel vm = new myViewModel();
+        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
         vm.postCNIC(CnicPostParams);
 
 
         vm.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
             @Override
             public void onChanged(ResponseDTO responseDTO) {
-                Intent i = new Intent(view.getContext(),OTP_Verification.class);
+                Intent i = new Intent(view.getContext(), OtpVerificationActivity.class);
                 i.putExtra(Config.RESPONSE,responseDTO);
                 startActivity(i);
             }
@@ -65,7 +67,7 @@ public class CNIC_Availability extends AppCompatActivity {
         vm.CnicErrorLiveData.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String responseDTO) {
-                Toast.makeText(CNIC_Availability.this,responseDTO,Toast.LENGTH_SHORT).show();
+                Toast.makeText(CnicAvailabilityActivity.this,responseDTO,Toast.LENGTH_SHORT).show();
             }
         });
     }

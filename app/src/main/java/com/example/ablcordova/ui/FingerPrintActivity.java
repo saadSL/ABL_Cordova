@@ -1,4 +1,4 @@
-package com.example.ablcordova;
+package com.example.ablcordova.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.ablcordova.R;
 
 public class FingerPrintActivity extends AppCompatActivity {
 

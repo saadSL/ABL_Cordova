@@ -1,4 +1,4 @@
-package com.example.ablcordova;
+package com.example.ablcordova.interfaces;
 
 import com.example.ablcordova.model.CnicPostParams;
 import com.example.ablcordova.model.OtpPostParams;

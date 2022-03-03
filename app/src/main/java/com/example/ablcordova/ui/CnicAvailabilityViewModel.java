@@ -1,7 +1,9 @@
-package com.example.ablcordova;
+package com.example.ablcordova.ui;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.ablcordova.Config;
+import com.example.ablcordova.interfaces.RetrofitApi;
 import com.example.ablcordova.model.CnicPostParams;
 import com.example.ablcordova.model.OtpPostParams;
 import com.example.ablcordova.model.OtpResponse;
@@ -20,7 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class myViewModel {
+public class CnicAvailabilityViewModel {
 
 
     private RetrofitApi service;
@@ -30,7 +32,7 @@ public class myViewModel {
     public MutableLiveData<OtpResponse> OtpSuccessLiveData = new MutableLiveData<OtpResponse>();
     public MutableLiveData<String> OtpErrorLiveData = new MutableLiveData<String>();
 
-    myViewModel(){
+    CnicAvailabilityViewModel(){
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
