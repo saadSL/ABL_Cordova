@@ -112,7 +112,7 @@
                 android:id="@+id/et_otp1"
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
+                android:layout_marginLeft="15sp"
                 android:hint="-"
                 android:nextFocusUp="@id/et_otp2"
                 android:maxLength="1"

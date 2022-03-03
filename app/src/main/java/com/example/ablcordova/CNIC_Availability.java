@@ -65,6 +65,7 @@ public class CNIC_Availability extends AppCompatActivity {
             public void onChanged(ResponseDTO responseDTO) {
                 Intent i = new Intent(view.getContext(),OTP_Verification.class);
                 i.putExtra(Config.RESPONSE,responseDTO);
+                i.putExtra(Config.CNIC_ACC,CnicPostParams);
                 startActivity(i);
                 clearFields();
             }

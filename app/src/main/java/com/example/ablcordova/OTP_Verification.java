@@ -1,19 +1,26 @@
 package com.example.ablcordova;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.example.ablcordova.model.CnicPostParams;
 import com.example.ablcordova.model.OtpPostParams;
 import com.example.ablcordova.model.OtpResponse;
 import com.example.ablcordova.model.ResponseDTO;
@@ -25,6 +32,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Locale;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -42,7 +50,12 @@ public class OTP_Verification extends AppCompatActivity {
     private EditText otp5;
     private EditText otp6;
 
+    private TextView mobileNumber;
+
+    private TextView timer;
+
     ResponseDTO res;
+    CnicPostParams cnicPostParams;
 
 
     @Override
@@ -57,12 +70,38 @@ public class OTP_Verification extends AppCompatActivity {
         otp5 = findViewById(R.id.et_otp5);
         otp6 = findViewById(R.id.et_otp6);
 
+        timer = findViewById(R.id.timer);
 
-//         res = new ResponseDTO();
+        mobileNumber = findViewById(R.id.tv_mobileNumber);
+
+        mobileNumber.setText("03XX-XXXX"+Config.fakeContact.substring(Config.fakeContact.length()-3));
+
         res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
+        cnicPostParams = (CnicPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
 
-        System.out.println("In OTP Verification : " + res.getData().getEntityId());
+        startTimer(Config.countDownTime);
+    }
 
+    private void startTimer(int totalTime) {
+        new CountDownTimer(totalTime,1000) {
+            @Override
+            public void onTick(long l) {
+                int minutes = (int)(l/1000)/60;
+                int seconds = (int)(l/1000)%60;
+                String timeFormat = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+                if (minutes==0){
+                    timer.setText(timeFormat+" seconds");
+                }else{
+                    timer.setText(timeFormat+" minutes");
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                showAlert("You OTP Expired");
+            }
+        }.start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -70,10 +109,13 @@ public class OTP_Verification extends AppCompatActivity {
         if (isEmpty(otp1) || isEmpty(otp4) ||
                 isEmpty(otp2) || isEmpty(otp5) ||
                 isEmpty(otp3) || isEmpty(otp6)) {
-
-            Toast.makeText(view.getContext(), "OTP fields Empty", Toast.LENGTH_SHORT).show();
+            showAlert("OTP fields empty");
+            return;
+        }else if (!isOnline()){
+            showAlert("No internet connection !!!");
             return;
         }
+
         String otp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
 
         OtpPostParams otpPostParams = new OtpPostParams();
@@ -82,7 +124,7 @@ public class OTP_Verification extends AppCompatActivity {
         otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
        myViewModel vm = new myViewModel();
-       vm.postOtp(otpPostParams,res.getData().getAccessToken());
+       vm.postOtp(otpPostParams,res.getData().getAccessToken(),this);
 
 
        vm.OtpSuccessLiveData.observe(this, new Observer<OtpResponse>() {
@@ -97,8 +139,8 @@ public class OTP_Verification extends AppCompatActivity {
 
        vm.OtpErrorLiveData.observe(this, new Observer<String>() {
            @Override
-           public void onChanged(String s) {
-               Toast.makeText(OTP_Verification.this,s,Toast.LENGTH_SHORT).show();
+           public void onChanged(String errorMsg) {
+                showAlert(errorMsg);
                 clearFields();
            }
        });
@@ -136,7 +178,12 @@ public class OTP_Verification extends AppCompatActivity {
     }
 
     public void sendOtp(View view) {
-        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
+        myViewModel viewModel = new myViewModel();
+        try {
+            viewModel.postCNIC(cnicPostParams,this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void messageFunc(View view) {
@@ -161,5 +208,34 @@ public class OTP_Verification extends AppCompatActivity {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             String data = Base64.getEncoder().encodeToString(encrypted);
             return data;
+    }
+
+
+
+    public void showAlert(String msg){
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(OTP_Verification.this);
+        builder1.setMessage(msg);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+    public boolean isOnline() {
+        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+            return false;
+        }
+        return true;
     }
 }
