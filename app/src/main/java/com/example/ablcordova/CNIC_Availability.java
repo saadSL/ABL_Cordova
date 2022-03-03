@@ -1,26 +1,22 @@
 package com.example.ablcordova;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ablcordova.model.CnicPostParams;
+import com.example.ablcordova.model.ResponseDTO;
+
 public class CNIC_Availability extends AppCompatActivity {
-    public static String ACCOUNT_NUMBER = "account_number";
-    public static String CNIC_NUMBER = "cnic_number";
-
-    public static int ACCOUNT_LENGTH = 11;
-    public static int CNIC_LENGTH = 13;
-
 
     private EditText etAccNumber;
     private EditText etCnicNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +28,46 @@ public class CNIC_Availability extends AppCompatActivity {
         etCnicNumber = findViewById(R.id.et_cnicNumber);
     }
 
-    public void nextActivity(View view) {
+    public void postCustomerDetail(View view) throws InterruptedException {
+
+
         if (isEmpty(etAccNumber) ||
             isEmpty(etCnicNumber)){
             Toast.makeText(view.getContext(),"Please fill all * fields",Toast.LENGTH_LONG).show();
             return;
         }
-        if (etAccNumber.getText().length() < ACCOUNT_LENGTH){
+        if (etAccNumber.getText().length() < Config.ACCOUNT_LENGTH){
             Toast.makeText(view.getContext(),"Account Length is not valid", Toast.LENGTH_LONG).show();
             return;
-        }else if (etCnicNumber.getText().length() < CNIC_LENGTH){
+        }else if (etCnicNumber.getText().length() < Config.CNIC_LENGTH){
             Toast.makeText(view.getContext(),"CNIC Length is not valid",Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent i = new Intent(view.getContext(),OTP_Verification.class);
 
-        i.putExtra(ACCOUNT_NUMBER,etAccNumber.getText().toString());
-        i.putExtra(CNIC_NUMBER,etCnicNumber.getText().toString());
+        CnicPostParams CnicPostParams = new CnicPostParams();
 
-        startActivityForResult(i,1);
+        CnicPostParams.getData().setCnic(etCnicNumber.getText().toString());
+        CnicPostParams.getData().setAccountNo(etAccNumber.getText().toString());
+
+        myViewModel vm = new myViewModel();
+        vm.postCNIC(CnicPostParams);
+
+
+        vm.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
+            @Override
+            public void onChanged(ResponseDTO responseDTO) {
+                Intent i = new Intent(view.getContext(),OTP_Verification.class);
+                i.putExtra(Config.RESPONSE,responseDTO);
+                startActivity(i);
+            }
+        });
+
+        vm.CnicErrorLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String responseDTO) {
+                Toast.makeText(CNIC_Availability.this,responseDTO,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public Boolean isEmpty(EditText et) {

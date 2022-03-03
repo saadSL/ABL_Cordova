@@ -19,4 +19,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(view.getContext(),CNIC_Availability.class);
         startActivity(i);
     }
+
 }

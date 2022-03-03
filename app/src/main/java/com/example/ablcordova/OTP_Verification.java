@@ -1,17 +1,37 @@
 package com.example.ablcordova;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+
+import com.example.ablcordova.model.OtpPostParams;
+import com.example.ablcordova.model.OtpResponse;
+import com.example.ablcordova.model.ResponseDTO;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class OTP_Verification extends AppCompatActivity {
 
@@ -22,16 +42,13 @@ public class OTP_Verification extends AppCompatActivity {
     private EditText otp5;
     private EditText otp6;
 
+    ResponseDTO res;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp_verification);
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.otp_toolbar);
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000FF")));
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         otp1 = findViewById(R.id.et_otp1);
         otp2 = findViewById(R.id.et_otp2);
@@ -40,27 +57,55 @@ public class OTP_Verification extends AppCompatActivity {
         otp5 = findViewById(R.id.et_otp5);
         otp6 = findViewById(R.id.et_otp6);
 
-        Intent i = getIntent();
 
-        //Printing For testing purpose
-        System.out.println(i.getStringExtra(CNIC_Availability.ACCOUNT_NUMBER));
-        System.out.println(i.getStringExtra(CNIC_Availability.CNIC_NUMBER));
+//         res = new ResponseDTO();
+        res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
+
+        System.out.println("In OTP Verification : " + res.getData().getEntityId());
 
     }
 
-    public void OTPVerification(View view) {
-                if (isEmpty(otp1) || isEmpty(otp4)||
-                    isEmpty(otp2) || isEmpty(otp5)||
-                    isEmpty(otp3) || isEmpty(otp6)){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void OTPVerification(View view) throws InterruptedException, NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        if (isEmpty(otp1) || isEmpty(otp4) ||
+                isEmpty(otp2) || isEmpty(otp5) ||
+                isEmpty(otp3) || isEmpty(otp6)) {
 
-            Toast.makeText(view.getContext(),"OTP fields Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "OTP fields Empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        startActivity(new Intent(OTP_Verification.this,FingerPrintActivity.class));
+        String otp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
+
+        OtpPostParams otpPostParams = new OtpPostParams();
+        String encryptedOtp = encrypt(otp);
+        otpPostParams.getData().setOtp(encryptedOtp);
+        System.out.println("In Otp : "+otpPostParams.getData().getOtp());
+        otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
+
+       myViewModel vm = new myViewModel();
+       vm.postOtp(otpPostParams,res.getData().getAccessToken());
+
+
+       vm.OtpSuccessLiveData.observe(this, new Observer<OtpResponse>() {
+           @Override
+           public void onChanged(OtpResponse otpResponse) {
+               Intent i = new Intent(view.getContext(),FingerPrintActivity.class);
+               i.putExtra(Config.RESPONSE,otpResponse);
+               startActivity(i);
+           }
+       });
+
+       vm.OtpErrorLiveData.observe(this, new Observer<String>() {
+           @Override
+           public void onChanged(String s) {
+               Toast.makeText(OTP_Verification.this,s,Toast.LENGTH_SHORT).show();
+           }
+       });
+//        startActivity(new Intent(OTP_Verification.this, FingerPrintActivity.class));
     }
 
     public Boolean isEmpty(EditText et) {
-        if (et.getText().toString().equals("") || et.getText().toString().equals("-")){
+        if (et.getText().toString().equals("") || et.getText().toString().equals("-")) {
             return true;
         }
         return false;
@@ -81,14 +126,30 @@ public class OTP_Verification extends AppCompatActivity {
     }
 
     public void sendOtp(View view) {
-        Toast.makeText(view.getContext(),"Sorry, currently the function is not responsive !!!",Toast.LENGTH_LONG).show();
+        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
     }
 
-    public void messageFunc(View view){
-        Toast.makeText(view.getContext(),"Sorry, currently the function is not responsive !!!",Toast.LENGTH_LONG).show();
+    public void messageFunc(View view) {
+        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
     }
 
-    public void powerSettingFunc(View view){
-        Toast.makeText(view.getContext(),"Sorry, currently the function is not responsive !!!",Toast.LENGTH_LONG).show();
+    public void powerSettingFunc(View view) {
+        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String encrypt(String value) throws UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+
+            String initVector = "0000000000000000";
+            String key = "4dweqdxcerfvc3rw";
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"),"AES");
+            Cipher cipher = Cipher.getInstance("AES");
+
+            cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,ivParameterSpec);
+
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            String data = Base64.getEncoder().encodeToString(encrypted);
+            return data;
     }
 }
