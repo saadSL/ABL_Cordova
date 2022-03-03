@@ -12,6 +12,7 @@ public class Config {
     public static int CNIC_LENGTH = 0;
     // Activity request codes
     public static final int REQ_SCAN_FINGERPRINT = 22;
+    public static final int EXTERNAL_STORAGE_CODE = 11;
 
 
 }

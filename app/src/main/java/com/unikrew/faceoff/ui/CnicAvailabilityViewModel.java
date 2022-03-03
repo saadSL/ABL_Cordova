@@ -1,16 +1,14 @@
 package com.unikrew.faceoff.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.MutableLiveData;
 
 import com.unikrew.faceoff.Config;
+import com.unikrew.faceoff.R;
 import com.unikrew.faceoff.interfaces.RetrofitApi;
 import com.unikrew.faceoff.model.CnicPostParams;
 import com.unikrew.faceoff.model.OtpPostParams;
@@ -46,7 +44,6 @@ public class CnicAvailabilityViewModel {
 
     CircularProgressButton cpb;
 
-    myViewModel(){
     CnicAvailabilityViewModel(){
         Gson gson = new GsonBuilder()
                 .setLenient()

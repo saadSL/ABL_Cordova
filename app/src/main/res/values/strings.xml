@@ -9,4 +9,5 @@ Ius oportere erroribus te, in ceteros quaerendum nam. Has eu modo wisi. Has no e
     <string name="OTP_question">Did not recieve OTP ?</string>
     <string name="otp_inst">Enter <b>OTP</b> recieved on your provided mobile number</string>
     <string name="otp_insta">Enter <b>OTP</b> recieved on your provided mobile number</string>
+    <string name="please_grant_external_storage_permissions">In order to use this application, please grant External storage permission.</string>
 </resources>

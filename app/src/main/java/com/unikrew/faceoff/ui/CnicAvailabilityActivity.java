@@ -59,7 +59,7 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
         CnicPostParams.getData().setAccountNo(etAccNumber.getText().toString());
 
         CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-        vm.postCNIC(CnicPostParams);
+        vm.postCNIC(CnicPostParams,CnicAvailabilityActivity.this);
 
 
         vm.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
@@ -98,7 +98,7 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
 
     public void showAlert(String msg){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(CNIC_Availability.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(CnicAvailabilityActivity.this);
         builder1.setMessage(msg);
         builder1.setCancelable(true);
 

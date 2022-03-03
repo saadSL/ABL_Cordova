@@ -3,19 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_finger_print.xml" value="0.25416666666666665" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/dialog.xml" value="0.13020833333333334" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/otp_verification.xml" value="0.1925925925925926" />
         <entry key="..\:/Test/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/Test/app/src/main/res/drawable/primary_outlined_button_style.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/drawable/rounded_corner_bg.xml" value="0.19583333333333333" />
-        <entry key="..\:/Test/app/src/main/res/drawable/transparent_bg.xml" value="0.19583333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/activity_finger_print.xml" value="0.22" />
         <entry key="..\:/Test/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_availability.xml" value="0.2972972972972973" />
+        <entry key="..\:/Test/app/src/main/res/layout/cnic_availability.xml" value="0.3333333333333333" />
         <entry key="..\:/Test/app/src/main/res/layout/cnic_availibility.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_toolbar.xml" value="0.240625" />
+        <entry key="..\:/Test/app/src/main/res/layout/cnic_toolbar.xml" value="0.3333333333333333" />
         <entry key="..\:/Test/app/src/main/res/layout/custom_toolbar.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/layout/loader.xml" value="0.3333333333333333" />
         <entry key="..\:/Test/app/src/main/res/layout/otp_toolbar.xml" value="0.3758099352051836" />
-        <entry key="..\:/Test/app/src/main/res/layout/otp_verification.xml" value="0.3333333333333333" />
+        <entry key="..\:/Test/app/src/main/res/layout/otp_verification.xml" value="0.25666666666666665" />
       </map>
     </option>
   </component>
