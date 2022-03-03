@@ -1,4 +1,4 @@
-package com.example.ablcordova.ui;
+package com.unikrew.faceoff.ui;
 
 import android.content.Intent;
 import android.os.Build;
@@ -13,11 +13,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import com.example.ablcordova.Config;
-import com.example.ablcordova.R;
-import com.example.ablcordova.model.OtpPostParams;
-import com.example.ablcordova.model.OtpResponse;
-import com.example.ablcordova.model.ResponseDTO;
+import com.unikrew.faceoff.Config;
+import com.unikrew.faceoff.R;
+import com.unikrew.faceoff.model.OtpPostParams;
+import com.unikrew.faceoff.model.OtpResponse;
+import com.unikrew.faceoff.model.ResponseDTO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

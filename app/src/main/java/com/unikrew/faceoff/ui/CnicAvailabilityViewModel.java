@@ -1,13 +1,13 @@
-package com.example.ablcordova.ui;
+package com.unikrew.faceoff.ui;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ablcordova.Config;
-import com.example.ablcordova.interfaces.RetrofitApi;
-import com.example.ablcordova.model.CnicPostParams;
-import com.example.ablcordova.model.OtpPostParams;
-import com.example.ablcordova.model.OtpResponse;
-import com.example.ablcordova.model.ResponseDTO;
+import com.unikrew.faceoff.Config;
+import com.unikrew.faceoff.interfaces.RetrofitApi;
+import com.unikrew.faceoff.model.CnicPostParams;
+import com.unikrew.faceoff.model.OtpPostParams;
+import com.unikrew.faceoff.model.OtpResponse;
+import com.unikrew.faceoff.model.ResponseDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

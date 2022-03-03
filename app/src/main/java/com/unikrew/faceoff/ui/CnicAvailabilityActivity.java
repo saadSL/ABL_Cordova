@@ -1,4 +1,4 @@
-package com.example.ablcordova.ui;
+package com.unikrew.faceoff.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ablcordova.Config;
-import com.example.ablcordova.R;
-import com.example.ablcordova.model.CnicPostParams;
-import com.example.ablcordova.model.ResponseDTO;
+import com.unikrew.faceoff.Config;
+import com.unikrew.faceoff.R;
+import com.unikrew.faceoff.model.CnicPostParams;
+import com.unikrew.faceoff.model.ResponseDTO;
 
 public class CnicAvailabilityActivity extends AppCompatActivity {
 

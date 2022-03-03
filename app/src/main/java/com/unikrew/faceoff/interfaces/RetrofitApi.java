@@ -1,9 +1,9 @@
-package com.example.ablcordova.interfaces;
+package com.unikrew.faceoff.interfaces;
 
-import com.example.ablcordova.model.CnicPostParams;
-import com.example.ablcordova.model.OtpPostParams;
-import com.example.ablcordova.model.OtpResponse;
-import com.example.ablcordova.model.ResponseDTO;
+import com.unikrew.faceoff.model.CnicPostParams;
+import com.unikrew.faceoff.model.OtpPostParams;
+import com.unikrew.faceoff.model.OtpResponse;
+import com.unikrew.faceoff.model.ResponseDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

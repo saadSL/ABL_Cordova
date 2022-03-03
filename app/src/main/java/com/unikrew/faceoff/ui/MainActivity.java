@@ -1,4 +1,4 @@
-package com.example.ablcordova.ui;
+package com.unikrew.faceoff.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.ablcordova.R;
+import com.unikrew.faceoff.R;
 
 public class MainActivity extends AppCompatActivity {
 

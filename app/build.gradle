@@ -7,7 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.ablcordova"
+        applicationId "com.unikrew.faceoff"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -37,6 +37,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    implementation 'com.unikrew.faceoff:fingerprint-demo:0.7.8'
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'

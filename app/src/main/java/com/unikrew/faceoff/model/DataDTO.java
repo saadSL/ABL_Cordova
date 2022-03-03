@@ -1,4 +1,4 @@
-package com.example.ablcordova.model;
+package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
