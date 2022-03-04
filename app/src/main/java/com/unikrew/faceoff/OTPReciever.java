@@ -1,4 +1,4 @@
-package com.example.ablcordova;
+package com.unikrew.faceoff;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
