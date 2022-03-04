@@ -26,8 +26,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
-import com.example.ablcordova.OTPReciever;
 import com.unikrew.faceoff.Config;
+import com.unikrew.faceoff.OTPReciever;
 import com.unikrew.faceoff.R;
 import com.unikrew.faceoff.model.CnicPostParams;
 import com.unikrew.faceoff.model.OtpPostParams;
