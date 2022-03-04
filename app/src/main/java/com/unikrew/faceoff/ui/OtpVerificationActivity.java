@@ -26,8 +26,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
+import com.example.ablcordova.OTPReciever;
 import com.unikrew.faceoff.Config;
 import com.unikrew.faceoff.R;
+import com.unikrew.faceoff.model.CnicPostParams;
 import com.unikrew.faceoff.model.OtpPostParams;
 import com.unikrew.faceoff.model.OtpResponse;
 import com.unikrew.faceoff.model.ResponseDTO;
@@ -48,7 +50,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class OtpVerificationActivity extends AppCompatActivity {
+public class OtpVerificationActivity extends AppCompatActivity implements TextWatcher {
 
     private EditText otp1;
     private EditText otp2;
@@ -157,7 +159,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-       vm.postOtp(otpPostParams,res.getData().getAccessToken());
+       vm.postOtp(otpPostParams,res.getData().getAccessToken(),this);
 
 
        vm.OtpSuccessLiveData.observe(this, new Observer<OtpResponse>() {
@@ -178,7 +180,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 clearFields();
            }
        });
-//        startActivity(new Intent(OTP_Verification.this, FingerPrintActivity.class));
+//        startActivity(new Intent(OtpVerificationActivity.this, FingerPrintActivity.class));
     }
 
     private void clearFields() {
@@ -218,7 +220,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     public void sendOtp(View view) {
-        myViewModel viewModel = new myViewModel();
+        CnicAvailabilityViewModel viewModel = new CnicAvailabilityViewModel();
         try {
             viewModel.postCNIC(cnicPostParams,this);
             countDownTimer.start();
@@ -262,7 +264,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
     public void showAlert(String msg){
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(OTP_Verification.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(OtpVerificationActivity.this);
         builder1.setMessage(msg);
         builder1.setCancelable(true);
 
@@ -288,9 +290,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        if (ContextCompat.checkSelfPermission(OTP_Verification.this, Manifest.permission.RECEIVE_SMS)
+        if (ContextCompat.checkSelfPermission(OtpVerificationActivity.this, Manifest.permission.RECEIVE_SMS)
                 != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(OTP_Verification.this,new String[]{
+            ActivityCompat.requestPermissions(OtpVerificationActivity.this,new String[]{
                     Manifest.permission.RECEIVE_SMS
             },100);
         }

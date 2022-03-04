@@ -7,6 +7,8 @@ import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.widget.EditText;
 
+import com.unikrew.faceoff.ui.OtpVerificationActivity;
+
 public class OTPReciever extends BroadcastReceiver {
 
     private static EditText et_otp1;
@@ -36,7 +38,7 @@ public class OTPReciever extends BroadcastReceiver {
         for (SmsMessage smsMessage: smsMessages){
             String msg_body = smsMessage.getMessageBody();
             String get_otp = msg_body.split("code ")[1];
-            OTP_Verification.countDownTimer.start();
+            OtpVerificationActivity.countDownTimer.start();
             et_otp1.setText(String.valueOf(get_otp.charAt(0)));
             et_otp2.setText(String.valueOf(get_otp.charAt(1)));
             et_otp3.setText(String.valueOf(get_otp.charAt(2)));

@@ -111,7 +111,6 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
     public void showAlert(int type,String msg){
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(CnicAvailabilityActivity.this);
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(CNIC_Availability.this);
         if (type == Config.errorType){
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.RED);
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("ERROR");
