@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_finger_print.xml" value="0.25416666666666665" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_back_arrow.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_email.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_power_setting.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_finger_print.xml" value="0.2" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_view_fingerprints.xml" value="0.13020833333333334" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/dialog.xml" value="0.13020833333333334" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/otp_verification.xml" value="0.1925925925925926" />
