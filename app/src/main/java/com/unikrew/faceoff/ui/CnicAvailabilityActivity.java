@@ -6,9 +6,13 @@ import androidx.lifecycle.Observer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,17 +43,17 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
 
         if (isEmpty(etAccNumber) ||
             isEmpty(etCnicNumber)){
-            showAlert("Please fill all * fields");
+            showAlert(Config.errorType,"Please fill all * fields");
             return;
         }
         if (etAccNumber.getText().length() < Config.ACCOUNT_LENGTH){
-            showAlert("Account Number Length is not valid");
+            showAlert(Config.errorType,"Account Number Length is not valid");
             return;
         }else if (etCnicNumber.getText().length() < Config.CNIC_LENGTH){
-            showAlert("CNIC Length is not valid");
+            showAlert(Config.errorType,"CNIC Length is not valid");
             return;
         }else if (!isOnline()){
-            showAlert("No Internet connection!");
+            showAlert(Config.errorType,"No Internet connection!");
             return;
         }
 
@@ -62,11 +66,19 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
         vm.postCNIC(CnicPostParams,CnicAvailabilityActivity.this);
 
 
+        vm.CnicVerifiedLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                showAlert(Config.successType,s);
+            }
+        });
+
         vm.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
             @Override
             public void onChanged(ResponseDTO responseDTO) {
                 Intent i = new Intent(view.getContext(), OtpVerificationActivity.class);
                 i.putExtra(Config.RESPONSE,responseDTO);
+                i.putExtra(Config.CNIC_ACC,CnicPostParams);
                 startActivity(i);
                 clearFields();
             }
@@ -75,7 +87,7 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
         vm.CnicErrorLiveData.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String responseMsg) {
-                showAlert(responseMsg);
+                showAlert(Config.errorType,responseMsg);
             }
         });
     }
@@ -96,9 +108,33 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
         finish();
     }
 
-    public void showAlert(String msg){
+    public void showAlert(int type,String msg){
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(CnicAvailabilityActivity.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(CNIC_Availability.this);
+        if (type == Config.errorType){
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.RED);
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("ERROR");
+            spannableStringBuilder.setSpan(
+                    foregroundColorSpan,
+                    0,
+                    "ERROR".length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+            builder1.setTitle(spannableStringBuilder);
+        }else if (type==Config.successType){
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.GREEN);
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("VERIFIED");
+            spannableStringBuilder.setSpan(
+                    foregroundColorSpan,
+                    0,
+                    "VERIFIED".length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+            builder1.setTitle(spannableStringBuilder);
+
+        }
+
         builder1.setMessage(msg);
         builder1.setCancelable(true);
 
