@@ -35,9 +35,11 @@ public class myViewModel {
     private RetrofitApi service;
     public MutableLiveData<ResponseDTO> CnicSuccessLiveData = new MutableLiveData<ResponseDTO>();
     public MutableLiveData<String> CnicErrorLiveData = new MutableLiveData<String>();
+    public MutableLiveData<String> CnicVerifiedLiveData = new MutableLiveData<String>();
 
     public MutableLiveData<OtpResponse> OtpSuccessLiveData = new MutableLiveData<OtpResponse>();
     public MutableLiveData<String> OtpErrorLiveData = new MutableLiveData<String>();
+
 
     Activity activity;
     AlertDialog alertDialog;
@@ -73,7 +75,12 @@ public class myViewModel {
                             CnicErrorLiveData.postValue(message.getString("errorDetail"));
                             alertDialog.dismiss();
                         }else{
-                            CnicErrorLiveData.postValue(message.getString("description"));
+                            if (message.getString("status").equals("409")){
+                                CnicVerifiedLiveData.postValue(message.getString("description"));
+                            }else if (message.getString("status").equals("401")){
+                                CnicErrorLiveData.postValue(message.getString("description"));
+                            }
+
                             alertDialog.dismiss();
                         }
                     } catch (JSONException e) {
@@ -85,7 +92,7 @@ public class myViewModel {
             }
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                CnicErrorLiveData.postValue(t.getMessage().toString());
+                CnicErrorLiveData.postValue(t.getMessage()+". Processing took too long.");
                 alertDialog.dismiss();
             }
         });
@@ -117,6 +124,7 @@ public class myViewModel {
             }
             @Override
             public void onFailure(Call<OtpResponse> call, Throwable t) {
+                System.out.println(t.getLocalizedMessage());
                 OtpErrorLiveData.postValue(t.getMessage());
                 alertDialog.dismiss();
             }

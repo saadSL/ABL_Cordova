@@ -1,31 +1,35 @@
 package com.example.ablcordova;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
 import com.example.ablcordova.model.CnicPostParams;
 import com.example.ablcordova.model.OtpPostParams;
 import com.example.ablcordova.model.OtpResponse;
 import com.example.ablcordova.model.ResponseDTO;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -41,7 +45,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class OTP_Verification extends AppCompatActivity {
+public class OTP_Verification extends AppCompatActivity implements TextWatcher {
 
     private EditText otp1;
     private EditText otp2;
@@ -50,6 +54,8 @@ public class OTP_Verification extends AppCompatActivity {
     private EditText otp5;
     private EditText otp6;
 
+    private Button btnVerify;
+
     private TextView mobileNumber;
 
     private TextView timer;
@@ -57,12 +63,39 @@ public class OTP_Verification extends AppCompatActivity {
     ResponseDTO res;
     CnicPostParams cnicPostParams;
 
+    public static CountDownTimer countDownTimer;
+
+    boolean otpStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp_verification);
 
+        bind();
+        set();
+        requestPermission();
+
+        new OTPReciever().setEditText_otp(
+                otp1,otp2,otp3,
+                otp4,otp5,otp6
+        );
+
+        startTimer(Config.countDownTime);
+    }
+
+
+
+
+
+    private void set() {
+        res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
+        mobileNumber.setText("03XX-XXXX"+res.getData().getContact().substring(res.getData().getContact().length()-3));
+        cnicPostParams = (CnicPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
+        otp6.addTextChangedListener(this);
+    }
+
+    private void bind() {
         otp1 = findViewById(R.id.et_otp1);
         otp2 = findViewById(R.id.et_otp2);
         otp3 = findViewById(R.id.et_otp3);
@@ -70,20 +103,16 @@ public class OTP_Verification extends AppCompatActivity {
         otp5 = findViewById(R.id.et_otp5);
         otp6 = findViewById(R.id.et_otp6);
 
-        timer = findViewById(R.id.timer);
+
+        btnVerify = findViewById(R.id.btn_verify);
 
         mobileNumber = findViewById(R.id.tv_mobileNumber);
 
-        mobileNumber.setText("03XX-XXXX"+Config.fakeContact.substring(Config.fakeContact.length()-3));
-
-        res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
-        cnicPostParams = (CnicPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
-
-        startTimer(Config.countDownTime);
+        timer = findViewById(R.id.timer);
     }
 
     private void startTimer(int totalTime) {
-        new CountDownTimer(totalTime,1000) {
+        countDownTimer = new CountDownTimer(totalTime,1000) {
             @Override
             public void onTick(long l) {
                 int minutes = (int)(l/1000)/60;
@@ -100,6 +129,7 @@ public class OTP_Verification extends AppCompatActivity {
             @Override
             public void onFinish() {
                 showAlert("You OTP Expired");
+                countDownTimer.cancel();
             }
         }.start();
     }
@@ -133,6 +163,7 @@ public class OTP_Verification extends AppCompatActivity {
                Intent i = new Intent(view.getContext(),FingerPrintActivity.class);
                i.putExtra(Config.RESPONSE,otpResponse);
                startActivity(i);
+               countDownTimer.cancel();
                clearFields();
            }
        });
@@ -168,6 +199,12 @@ public class OTP_Verification extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -181,17 +218,26 @@ public class OTP_Verification extends AppCompatActivity {
         myViewModel viewModel = new myViewModel();
         try {
             viewModel.postCNIC(cnicPostParams,this);
+            countDownTimer.start();
+            showAlert("OTP Request Send");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    private void sendMsg() {
+        String messageToSend = "your otp code 333444. Please do not share it with anyone for your own security. Call 021-111-111-46 for help.";
+        String number = "0515551212";
+
+        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
+    }
+
     public void messageFunc(View view) {
-        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
+        showAlert("Sorry, currently the function is not responsive !!!");
     }
 
     public void powerSettingFunc(View view) {
-        Toast.makeText(view.getContext(), "Sorry, currently the function is not responsive !!!", Toast.LENGTH_LONG).show();
+        showAlert("Sorry, currently the function is not responsive !!!");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -206,8 +252,7 @@ public class OTP_Verification extends AppCompatActivity {
             cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,ivParameterSpec);
 
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            String data = Base64.getEncoder().encodeToString(encrypted);
-            return data;
+        return Base64.getEncoder().encodeToString(encrypted);
     }
 
 
@@ -237,5 +282,38 @@ public class OTP_Verification extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(OTP_Verification.this, Manifest.permission.RECEIVE_SMS)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(OTP_Verification.this,new String[]{
+                    Manifest.permission.RECEIVE_SMS
+            },100);
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        System.out.println("Do Nothing!!!");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        try {
+            if (otp6.getText().length()>0){
+                OTPVerification(btnVerify);
+            }
+
+        } catch (InterruptedException | UnsupportedEncodingException | BadPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        System.out.println("After Text changed : ");
     }
 }

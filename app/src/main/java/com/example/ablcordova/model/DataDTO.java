@@ -16,6 +16,15 @@ public class DataDTO implements Serializable {
 	private boolean guestConsumer=false;
 	private int sessionTimeout=0;
 	private Object menus=null;
+	private String contact="03343586803";
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
 
 	public void setUserId(Object userId){
 		this.userId = userId;
@@ -137,7 +146,8 @@ public class DataDTO implements Serializable {
 			",existingCustomer = '" + existingCustomer + '\'' + 
 			",guestConsumer = '" + guestConsumer + '\'' + 
 			",sessionTimeout = '" + sessionTimeout + '\'' + 
-			",menus = '" + menus + '\'' + 
+			",menus = '" + menus + '\'' +
+			",contact = '" + contact + '\'' +
 			"}";
 		}
 }

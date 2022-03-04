@@ -11,14 +11,11 @@ public class Config {
     public static String RESPONSE = "response";
     public static String CNIC_ACC = "cnic_acc";
 
+    public static int errorType = 0;
+    public static int successType = 1;
+    public static int ACCOUNT_LENGTH = 2;
+    public static int CNIC_LENGTH = 2;
 
-    public static int ACCOUNT_LENGTH = 0;
-    public static int CNIC_LENGTH = 0;
-
-    public static int countDownTime = 4*60*1000;
-
-
-
-    public static String fakeContact = "03343586801";
+    public static int countDownTime = 5*60*1000;
 
 }
