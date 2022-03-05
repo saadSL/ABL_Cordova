@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">ABL Cordova</string>
     <string name="OTP_link"><a href="#">Click here</a>To Resend OTP</string>
-    <string name="dummy_txt">Lorem ipsum dolor sit amet, his oratio latine cu, id labores deleniti adolescens his. Te vel nobis epicurei, sed no dicant consul noster.
-
-Ius oportere erroribus te, in ceteros quaerendum nam. Has eu modo wisi. Has no enim putant. Numquam erroribus intellegam vis ad.</string>
+    <string name="dummy_txt">Biometric Verification successfully done.</string>
     <string name="OTP_number">03XX-XXXXXXX</string>
     <string name="OTP_heading">Verify OTP</string>
     <string name="OTP_question">Did not recieve OTP ?</string>

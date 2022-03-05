@@ -1,6 +1,7 @@
 package com.unikrew.faceoff.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,13 +19,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
+
 
 import com.unikrew.faceoff.Config;
 import com.unikrew.faceoff.OTPReciever;
@@ -33,10 +33,9 @@ import com.unikrew.faceoff.model.CnicPostParams;
 import com.unikrew.faceoff.model.OtpPostParams;
 import com.unikrew.faceoff.model.OtpResponse;
 import com.unikrew.faceoff.model.ResponseDTO;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -95,7 +94,7 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
 
     private void set() {
         res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
-        mobileNumber.setText("03XX-XXXX"+res.getData().getContact().substring(res.getData().getContact().length()-3));
+        mobileNumber.setText("03XX-XXXX"+res.getData().getMobileNo().substring(res.getData().getMobileNo().length()-3));
         cnicPostParams = (CnicPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
         otp6.addTextChangedListener(this);
     }
@@ -139,7 +138,6 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         }.start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void OTPVerification(View view) throws InterruptedException, NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         if (isEmpty(otp1) || isEmpty(otp4) ||
                 isEmpty(otp2) || isEmpty(otp5) ||
@@ -167,6 +165,7 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
            public void onChanged(OtpResponse otpResponse) {
                Intent i = new Intent(view.getContext(),FingerPrintActivity.class);
                i.putExtra(Config.RESPONSE,otpResponse);
+               i.putExtra("TOKEN",res.getData().getAccessToken());
                startActivity(i);
                countDownTimer.cancel();
                clearFields();
@@ -209,32 +208,30 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         countDownTimer.cancel();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void sendOtp(View view) {
         CnicAvailabilityViewModel viewModel = new CnicAvailabilityViewModel();
         try {
             viewModel.postCNIC(cnicPostParams,this);
             countDownTimer.start();
-            showAlert("OTP Request Send");
+
+            viewModel.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
+                @Override
+                public void onChanged(ResponseDTO responseDTO) {
+                    showAlert("OTP Request Send");
+                }
+            });
+
+            viewModel.CnicErrorLiveData.observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    showAlert(s);
+                }
+            });
+
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    private void sendMsg() {
-        String messageToSend = "your otp code 333444. Please do not share it with anyone for your own security. Call 021-111-111-46 for help.";
-        String number = "0515551212";
-
-        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
     }
 
     public void messageFunc(View view) {
@@ -245,18 +242,48 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         showAlert("Sorry, currently the function is not responsive !!!");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String encrypt(String value) throws UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    @SuppressLint("NewApi")
+    public String encrypt(String value)  {
 
             String initVector = "0000000000000000";
             String key = "4dweqdxcerfvc3rw";
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"),"AES");
-            Cipher cipher = Cipher.getInstance("AES");
+        IvParameterSpec ivParameterSpec = null;
+        try {
+            ivParameterSpec = new IvParameterSpec(initVector.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        SecretKeySpec secretKeySpec = null;
+        try {
+            secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"),"AES");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Cipher cipher = null;
+        try {
+            cipher = Cipher.getInstance("AES");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
 
+        try {
             cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,ivParameterSpec);
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
 
-            byte[] encrypted = cipher.doFinal(value.getBytes());
+        byte[] encrypted = new byte[0];
+        try {
+            encrypted = cipher.doFinal(value.getBytes());
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
         return Base64.getEncoder().encodeToString(encrypted);
     }
 
@@ -303,7 +330,6 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         System.out.println("Do Nothing!!!");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 

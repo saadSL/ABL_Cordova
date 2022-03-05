@@ -39,6 +39,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="8dp"
             android:padding="5dp"
+            android:onClick="changeStatus"
             android:src="@drawable/ic_msg"
             app:tint="@color/white" />
 

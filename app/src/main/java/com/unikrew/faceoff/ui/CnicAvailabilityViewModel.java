@@ -1,9 +1,6 @@
 package com.unikrew.faceoff.ui;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 
@@ -21,6 +18,8 @@ import com.unikrew.faceoff.model.OtpResponse;
 import com.unikrew.faceoff.model.ResponseDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.unikrew.faceoff.model.UpdateBioMetricStatusPostParams;
+import com.unikrew.faceoff.model.UpdateBioMetricStatusResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +36,7 @@ public class CnicAvailabilityViewModel {
 
 
     private RetrofitApi service;
+
     public MutableLiveData<ResponseDTO> CnicSuccessLiveData = new MutableLiveData<ResponseDTO>();
     public MutableLiveData<String> CnicErrorLiveData = new MutableLiveData<String>();
     public MutableLiveData<String> CnicVerifiedLiveData = new MutableLiveData<String>();
@@ -44,9 +44,13 @@ public class CnicAvailabilityViewModel {
     public MutableLiveData<OtpResponse> OtpSuccessLiveData = new MutableLiveData<OtpResponse>();
     public MutableLiveData<String> OtpErrorLiveData = new MutableLiveData<String>();
 
+    public MutableLiveData<UpdateBioMetricStatusResponse> BioMetricStatusSuccessLiveData = new MutableLiveData<UpdateBioMetricStatusResponse>();
+    public MutableLiveData<String> BioMetricStatusErrorLiveData = new MutableLiveData<String>();
+
+
 
     Activity activity;
-    AlertDialog alertDialog;
+    AlertDialog loader;
 
 
     CnicAvailabilityViewModel(){
@@ -70,14 +74,14 @@ public class CnicAvailabilityViewModel {
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 if (response.code()==200){
                     CnicSuccessLiveData.postValue(response.body());
-                    alertDialog.dismiss();
+                    loader.dismiss();
                 }else if (response.code()==403){
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         JSONObject message = jObjError.getJSONObject("message");
                         if (message.getString("status").equals("api_error")){
                             CnicErrorLiveData.postValue(message.getString("errorDetail"));
-                            alertDialog.dismiss();
+                            loader.dismiss();
                         }else{
                             if (message.getString("status").equals("409")){
                                 CnicVerifiedLiveData.postValue(message.getString("description"));
@@ -85,7 +89,7 @@ public class CnicAvailabilityViewModel {
                                 CnicErrorLiveData.postValue(message.getString("description"));
                             }
 
-                            alertDialog.dismiss();
+                            loader.dismiss();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -96,12 +100,12 @@ public class CnicAvailabilityViewModel {
             }
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-                CnicErrorLiveData.postValue(t.getMessage()+". Processing took too long.");
-                alertDialog.dismiss();
+                CnicErrorLiveData.postValue(t.getMessage());
+                loader.dismiss();
             }
         });
         showLoading();
-        alertDialog.show();
+        loader.show();
     }
 
     public void postOtp(OtpPostParams postParams,String accessToken,Activity myActivity) throws InterruptedException{
@@ -112,13 +116,13 @@ public class CnicAvailabilityViewModel {
             public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
                 if (response.code()==200){
                     OtpSuccessLiveData.postValue(response.body());
-                    alertDialog.dismiss();
+                    loader.dismiss();
                 }else if (response.code()==403){
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         String msg = jObjError.getJSONObject("message").getString("description");
                         OtpErrorLiveData.postValue(msg);
-                        alertDialog.dismiss();
+                        loader.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -130,18 +134,50 @@ public class CnicAvailabilityViewModel {
             public void onFailure(Call<OtpResponse> call, Throwable t) {
                 System.out.println(t.getLocalizedMessage());
                 OtpErrorLiveData.postValue(t.getMessage());
-                alertDialog.dismiss();
+                loader.dismiss();
             }
         });
         showLoading();
-        alertDialog.show();
+        loader.show();
+    }
+
+    public void updateBioMetricStatus(UpdateBioMetricStatusPostParams pp,String accessToken,Activity myActivity){
+        this.activity = myActivity;
+        Call<UpdateBioMetricStatusResponse> callableRes = service.UpdateBioMetricStatus(pp,"Bearer "+accessToken);
+        callableRes.enqueue(new Callback<UpdateBioMetricStatusResponse>() {
+            @Override
+            public void onResponse(Call<UpdateBioMetricStatusResponse> call, Response<UpdateBioMetricStatusResponse> response) {
+                if (response.code()==200){
+                    BioMetricStatusSuccessLiveData.postValue(response.body());
+                    loader.dismiss();
+                }else if (response.code()==403){
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String msg = jObjError.getJSONObject("message").getString("description");
+                        BioMetricStatusErrorLiveData.postValue(msg);
+                        loader.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<UpdateBioMetricStatusResponse> call, Throwable t) {
+                BioMetricStatusErrorLiveData.postValue(t.getMessage());
+                loader.dismiss();
+            }
+        });
+        showLoading();
+        loader.show();
     }
 
     private void showLoading(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
         builder1.setView(View.inflate(activity,R.layout.loader,null));
         builder1.setCancelable(false);
-        alertDialog = builder1.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loader = builder1.create();
+        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }

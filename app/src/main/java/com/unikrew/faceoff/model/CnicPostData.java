@@ -29,5 +29,5 @@ public class CnicPostData implements Serializable {
 			"cnic = '" + cnic + '\'' + 
 			",accountNo = '" + accountNo + '\'' + 
 			"}";
-		}
+	}
 }
