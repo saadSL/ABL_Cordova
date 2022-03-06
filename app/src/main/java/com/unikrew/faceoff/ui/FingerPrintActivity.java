@@ -83,7 +83,7 @@ public class FingerPrintActivity extends AppCompatActivity {
         });
     }
 
-    private void submitFingerPrint() {
+    private void fingerPrintSuccess() {
         ivFingerPrint.setVisibility(View.GONE);
         liSuccess.setVisibility(View.VISIBLE);
         btSubmit.setText("Done");
@@ -201,36 +201,7 @@ public class FingerPrintActivity extends AppCompatActivity {
                             || resultCode == FingerprintResponse.Response.SUCCESS_PNG_EXPORT.getResponseCode()) {
 //                        showFingerprints(responseCode);
 
-                        UpdateBioMetricStatusPostParams pp = new UpdateBioMetricStatusPostParams();
-
-                        pp.getData().setRdaCustomerProfileId("3003");
-                        pp.getData().setRdaCustomerAccountInfoId("3195");
-                        pp.getData().setBioMetricVerificationNadraStatus(status);
-                        pp.getData().setNadraSessionId("afajhsdkjfhakjsdhfkjweu93845hriefha9we09u9f8u4398h");
-
-                        String token = (String) getIntent().getSerializableExtra("TOKEN");
-
-                        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-                        vm.updateBioMetricStatus(pp,token,this);
-
-                        vm.BioMetricStatusSuccessLiveData.observe(this, new Observer<UpdateBioMetricStatusResponse>() {
-                            @Override
-                            public void onChanged(UpdateBioMetricStatusResponse updateBioMetricStatusResponse) {
-                                submitFingerPrint();
-                            }
-                        });
-
-                        vm.BioMetricStatusErrorLiveData.observe(this, new Observer<String>() {
-                            @Override
-                            public void onChanged(String errorMsg) {
-                                if (pp.getData().getBioMetricVerificationNadraStatus().equals("1")){
-                                    submitFingerPrint();
-                                }else{
-                                    showAlert(Config.errorType,errorMsg);
-                                }
-
-                            }
-                        });
+                            submitFingerPrintToNetwork();
 //                        if (status){
 //                            submitFingerPrint();
 //                        }else{
@@ -251,6 +222,39 @@ public class FingerPrintActivity extends AppCompatActivity {
                 toastMessage("Could not receive response!");
             }
         }
+    }
+
+    private void submitFingerPrintToNetwork() {
+        UpdateBioMetricStatusPostParams pp = new UpdateBioMetricStatusPostParams();
+
+        pp.getData().setRdaCustomerProfileId("3003");
+        pp.getData().setRdaCustomerAccountInfoId("3195");
+        pp.getData().setBioMetricVerificationNadraStatus(status);
+        pp.getData().setNadraSessionId("afajhsdkjfhakjsdhfkjweu93845hriefha9we09u9f8u4398h");
+
+        String token = (String) getIntent().getSerializableExtra("TOKEN");
+
+        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
+        vm.updateBioMetricStatus(pp,token,this);
+
+        vm.BioMetricStatusSuccessLiveData.observe(this, new Observer<UpdateBioMetricStatusResponse>() {
+            @Override
+            public void onChanged(UpdateBioMetricStatusResponse updateBioMetricStatusResponse) {
+                fingerPrintSuccess();
+            }
+        });
+
+        vm.BioMetricStatusErrorLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String errorMsg) {
+                if (pp.getData().getBioMetricVerificationNadraStatus().equals("1")){
+                    fingerPrintSuccess();
+                }else{
+                    showAlert(Config.errorType,errorMsg);
+                }
+
+            }
+        });
     }
 
     private void showFingerprints(int responseCode) {
