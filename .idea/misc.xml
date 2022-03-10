@@ -8,35 +8,21 @@
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_email.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_power_setting.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/rounded_corner_bg.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_finger_print.xml" value="0.2" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_view_fingerprints.xml" value="0.13020833333333334" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/dialog.xml" value="0.13020833333333334" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/open_account_otp_verification.xml" value="0.25025641025641027" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/otp_verification.xml" value="0.1925925925925926" />
-        <entry key="..\:/Test/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19583333333333333" />
         <entry key="..\:/Test/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/drawable/ic_camera.xml" value="0.19282051282051282" />
-        <entry key="..\:/Test/app/src/main/res/drawable/ic_email.xml" value="0.19583333333333333" />
-        <entry key="..\:/Test/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19583333333333333" />
         <entry key="..\:/Test/app/src/main/res/drawable/primary_outlined_button_style.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/layout/activity_finger_print.xml" value="0.15092592592592594" />
         <entry key="..\:/Test/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/layout/activity_view_fingerprints.xml" value="0.1796875" />
         <entry key="..\:/Test/app/src/main/res/layout/cnic_availability.xml" value="0.3333333333333333" />
         <entry key="..\:/Test/app/src/main/res/layout/cnic_availibility.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_instruction.xml" value="0.17407407407407408" />
         <entry key="..\:/Test/app/src/main/res/layout/cnic_toolbar.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_upload.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_upload_after.xml" value="0.1796875" />
-        <entry key="..\:/Test/app/src/main/res/layout/cnic_upload_before.xml" value="0.2646048109965636" />
         <entry key="..\:/Test/app/src/main/res/layout/custom_toolbar.xml" value="0.1" />
-        <entry key="..\:/Test/app/src/main/res/layout/dialog.xml" value="0.1796875" />
-        <entry key="..\:/Test/app/src/main/res/layout/gen_toolbar.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/inst_layout.xml" value="0.1796875" />
-        <entry key="..\:/Test/app/src/main/res/layout/mobile_number_availability.xml" value="0.3333333333333333" />
-        <entry key="..\:/Test/app/src/main/res/layout/nav_toolbar.xml" value="0.1796875" />
-        <entry key="..\:/Test/app/src/main/res/layout/open_account_otp_verification.xml" value="0.3333333333333333" />
         <entry key="..\:/Test/app/src/main/res/layout/otp_toolbar.xml" value="0.3758099352051836" />
-        <entry key="..\:/Test/app/src/main/res/layout/otp_verification.xml" value="0.3333333333333333" />
+        <entry key="..\:/Test/app/src/main/res/layout/otp_verification.xml" value="0.25666666666666665" />
       </map>
     </option>
   </component>
