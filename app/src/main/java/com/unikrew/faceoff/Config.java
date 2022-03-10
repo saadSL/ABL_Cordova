@@ -1,7 +1,8 @@
 package com.unikrew.faceoff;
 
 public class Config {
-    public static final String BASE_URL = "http://192.168.1.5:8080";
+
+    public static final String BASE_URL = "http://192.168.8.100:8080";
 
     public static String ACCOUNT_NUMBER = "account_number";
 

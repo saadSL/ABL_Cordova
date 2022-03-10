@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/gen_toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CNIC Verification"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_margin="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Take A Clear Picture Of Your Original CNIC"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_margin="10sp"/>
+
+            <ImageView
+                android:layout_width="300sp"
+                android:layout_height="100sp"
+                android:layout_margin="10sp"
+                android:padding="5sp"
+                android:layout_gravity="center_horizontal"/>
+
+            <ImageView
+                android:layout_width="300sp"
+                android:layout_height="100sp"
+                android:src="@drawable/front_cnic"
+                android:layout_margin="10sp"
+                android:padding="5sp"
+                android:layout_gravity="center_horizontal"/>
+
+            <include layout="@layout/cnic_instruction"/>
+
+            <Button
+                android:id="@+id/bt_submit"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_corner_bg"
+                android:padding="10dp"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/bt_cancel"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:background="@drawable/transparent_bg"
+                android:padding="5dp"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/primary" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
