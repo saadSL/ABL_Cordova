@@ -39,7 +39,7 @@ import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import android.util.Base64;
 import java.util.Locale;
 
 import javax.crypto.BadPaddingException;
@@ -242,11 +242,11 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         showAlert("Sorry, currently the function is not responsive !!!");
     }
 
-    @SuppressLint("NewApi")
-    public String encrypt(String value)  {
+    private String encrypt(String value)  {
 
-            String initVector = "0000000000000000";
-            String key = "4dweqdxcerfvc3rw";
+        String initVector = "0000000000000000";
+        String key = "4dweqdxcerfvc3rw";
+
         IvParameterSpec ivParameterSpec = null;
         try {
             ivParameterSpec = new IvParameterSpec(initVector.getBytes("UTF-8"));
@@ -284,7 +284,9 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
-        return Base64.getEncoder().encodeToString(encrypted);
+        String data = Base64.encodeToString(encrypted,Base64.NO_WRAP);
+        System.out.println(data);
+        return data;
     }
 
 
