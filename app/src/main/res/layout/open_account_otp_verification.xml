@@ -17,7 +17,8 @@
             android:text="Verify OTP"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_margin="10sp"/>
 
     </LinearLayout>
 </LinearLayout>
