@@ -4,16 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/box_bg.xml" value="0.19444444444444445" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_back_arrow.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_email.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/ic_power_setting.xml" value="0.14635416666666667" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/rounded_corner_bg.xml" value="0.14635416666666667" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/drawable/transparent_bg.xml" value="0.19444444444444445" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_finger_print.xml" value="0.2" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_sim_failure.xml" value="0.2" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/activity_view_fingerprints.xml" value="0.13020833333333334" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/cnic_availability.xml" value="0.25025641025641027" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/dialog.xml" value="0.13020833333333334" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/gen_toolbar.xml" value="0.25025641025641027" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/mobile_number_availability.xml" value="0.25025641025641027" />
         <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/open_account_otp_verification.xml" value="0.25025641025641027" />
-        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/otp_verification.xml" value="0.1925925925925926" />
+        <entry key="..\:/Systems Projects/ABL/app/src/main/res/layout/otp_verification.xml" value="0.144" />
         <entry key="..\:/Test/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/Test/app/src/main/res/drawable/primary_outlined_button_style.xml" value="0.1" />
         <entry key="..\:/Test/app/src/main/res/layout/activity_main.xml" value="0.1" />

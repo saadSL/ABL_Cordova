@@ -51,7 +51,7 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-
+            android:theme="@style/AppTheme.NoActionBar"
             android:name="com.unikrew.faceoff.ui.MainActivity"
             android:exported="true">
             <intent-filter>

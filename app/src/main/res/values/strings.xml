@@ -4,7 +4,17 @@
     <string name="dummy_txt">Biometric Verification successfully done.</string>
     <string name="OTP_number">03XX-XXXXXXX</string>
     <string name="OTP_heading">Verify OTP</string>
-    <string name="OTP_question">Did not recieve OTP ?</string>
+    <string name="OTP_question">Did not receive OTP ?</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="press_to_continue"><u>Press here</u> to continue with same Mobile number to open Instant myABL Wallet Account</string>
+    <string name="mobile_network">Mobile Network</string>
+    <string name="mobile_network_placeholder">Mobilink</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="enter_mobile_number">Enter your mobile number</string>
+    <string name="sim_failure">SIM Ownership Verification Failure</string>
+    <string name="sim_verfication_failed">SIM Verification Failed</string>
+    <string name="sim_failure_content">As per Telecom Operator records, provided mobile number is not registered with scanned CNIC
+Do you wish to change mobile number?</string>
     <string name="otp_inst">Enter <b>OTP</b> recieved on your provided mobile number</string>
     <string name="otp_insta">Enter <b>OTP</b> recieved on your provided mobile number</string>
     <string name="please_grant_external_storage_permissions">In order to use this application, please grant External storage permission.</string>
