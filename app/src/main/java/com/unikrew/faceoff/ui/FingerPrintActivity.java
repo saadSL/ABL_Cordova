@@ -74,45 +74,9 @@ public class FingerPrintActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                submitFingerPrint();
-//                launchScanning(null, null, null, null, null, FingerprintConfig.Mode.EXPORT_WSQ);
+                launchScanning(null, null, null, null, null, FingerprintConfig.Mode.EXPORT_WSQ);
 
-                BioMetricVerificationNadraPostParams pp = new BioMetricVerificationNadraPostParams();
 
-                BioMetricVerificationResponse res = (BioMetricVerificationResponse) getIntent().getSerializableExtra(Config.RESPONSE);
-
-                pp.getData().setRdaCustomerProfileId(Integer.toString(res.getData().getEntityId()));
-                pp.getData().setRdaCustomerAccountInfoId(Integer.toString(res.getData().getAccountInfoId()));
-                pp.getData().setCnic(res.getData().getUsername());
-                pp.getData().setFingerprints(null);
-                pp.getData().setTemplateType(Config.templateType);
-                pp.getData().setContactNumber(res.getData().getMobileNo());
-                pp.getData().setArea(res.getData().getArea());
-                pp.getData().setAccountType(res.getData().getAccountType());
-
-                System.out.print(pp.getData());
-
-                CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-                vm.updateBioMetricStatus(pp,res.getData().getAccessToken(),FingerPrintActivity.this);
-
-                vm.BioMetricStatusSuccessLiveData.observe(FingerPrintActivity.this, new Observer<BioMetricVerificationNadraResponse>() {
-                    @Override
-                    public void onChanged(BioMetricVerificationNadraResponse bioMetricVerificationNadraResponse) {
-//                                int code = bioMetricVerificationNadraResponse.getData().getResponseCode();
-                        if (code == 100){
-                            submitFingerPrint();
-                        }else{
-                            showAlert(Config.errorType,"Not Approved.Please Scan Again");
-//                                    showAlert(Config.errorType,bioMetricVerificationNadraResponse.getData().getResponseMsg());
-                        }
-                    }
-                });
-
-                vm.BioMetricStatusErrorLiveData.observe(FingerPrintActivity.this, new Observer<String>() {
-                    @Override
-                    public void onChanged(String errorMsg) {
-                        showAlert(Config.errorType,errorMsg);
-                    }
-                });
             }
         });
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -250,23 +214,25 @@ public class FingerPrintActivity extends AppCompatActivity {
                         pp.getData().setRdaCustomerProfileId(Integer.toString(res.getData().getEntityId()));
                         pp.getData().setRdaCustomerAccountInfoId(Integer.toString(res.getData().getAccountInfoId()));
                         pp.getData().setCnic(res.getData().getUsername());
-//                        pp.getData().setFingerprints();
+                        pp.getData().setFingerprints(null);
                         pp.getData().setTemplateType(Config.templateType);
                         pp.getData().setContactNumber(res.getData().getMobileNo());
                         pp.getData().setArea(res.getData().getArea());
                         pp.getData().setAccountType(res.getData().getAccountType());
 
+                        System.out.print(pp.getData());
+
                         CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-                        vm.updateBioMetricStatus(pp,res.getData().getAccessToken(),this);
+                        vm.updateBioMetricStatus(pp,res.getData().getAccessToken(),FingerPrintActivity.this);
 
                         vm.BioMetricStatusSuccessLiveData.observe(this, new Observer<BioMetricVerificationNadraResponse>() {
                             @Override
                             public void onChanged(BioMetricVerificationNadraResponse bioMetricVerificationNadraResponse) {
-//                                int code = bioMetricVerificationNadraResponse.getData().getResponseCode();
+                                code = bioMetricVerificationNadraResponse.getData().getResponseCode();
                                 if (code == 100){
                                     submitFingerPrint();
                                 }else{
-                                    showAlert(Config.errorType,"Not Approved");
+                                    showAlert(Config.errorType,"Not Approved.Please Scan Again");
 //                                    showAlert(Config.errorType,bioMetricVerificationNadraResponse.getData().getResponseMsg());
                                 }
                             }
