@@ -2,7 +2,7 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
-public class CnicPostData implements Serializable {
+public class BioMetricVerificationPostData implements Serializable {
 	private String cnic;
 	private String accountNo;
 
@@ -25,7 +25,7 @@ public class CnicPostData implements Serializable {
 	@Override
  	public String toString(){
 		return 
-			"CnicPostData{" +
+			"BioMetricVerificationPostData{" +
 			"cnic = '" + cnic + '\'' + 
 			",accountNo = '" + accountNo + '\'' + 
 			"}";

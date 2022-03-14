@@ -2,7 +2,7 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
-public class OtpResponseData implements Serializable {
+public class VerifyOtpBioMetricVerificationResponseData implements Serializable {
     private int rdaCustomerProfileId=0;
     private Object rdaCustomerAccInfoId=null;
     private String otp="";
@@ -52,7 +52,7 @@ public class OtpResponseData implements Serializable {
     @Override
     public String toString(){
         return
-        "OtpResponseData{" +
+        "VerifyOtpBioMetricVerificationResponseData{" +
             "rdaCustomerProfileId = '" + rdaCustomerProfileId + '\'' +
             ",rdaCustomerAccInfoId = '" + rdaCustomerAccInfoId + '\'' +
             ",otp = '" + otp + '\'' +

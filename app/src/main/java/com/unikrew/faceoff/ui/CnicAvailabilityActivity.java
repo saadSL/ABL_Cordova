@@ -15,12 +15,11 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.unikrew.faceoff.Config;
 import com.unikrew.faceoff.R;
-import com.unikrew.faceoff.model.CnicPostParams;
-import com.unikrew.faceoff.model.ResponseDTO;
+import com.unikrew.faceoff.model.BioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.BioMetricVerificationResponse;
 
 public class CnicAvailabilityActivity extends AppCompatActivity {
 
@@ -57,13 +56,13 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
             return;
         }
 
-        CnicPostParams CnicPostParams = new CnicPostParams();
+        BioMetricVerificationPostParams BioMetricVerificationPostParams = new BioMetricVerificationPostParams();
 
-        CnicPostParams.getData().setCnic(etCnicNumber.getText().toString());
-        CnicPostParams.getData().setAccountNo(etAccNumber.getText().toString());
+        BioMetricVerificationPostParams.getData().setCnic(etCnicNumber.getText().toString());
+        BioMetricVerificationPostParams.getData().setAccountNo(etAccNumber.getText().toString());
 
         CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-        vm.postCNIC(CnicPostParams,CnicAvailabilityActivity.this);
+        vm.postCNIC(BioMetricVerificationPostParams,CnicAvailabilityActivity.this);
 
 
         vm.CnicVerifiedLiveData.observe(this, new Observer<String>() {
@@ -73,12 +72,12 @@ public class CnicAvailabilityActivity extends AppCompatActivity {
             }
         });
 
-        vm.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
+        vm.CnicSuccessLiveData.observe(this, new Observer<BioMetricVerificationResponse>() {
             @Override
-            public void onChanged(ResponseDTO responseDTO) {
+            public void onChanged(BioMetricVerificationResponse bioMetricVerificationResponse) {
                 Intent i = new Intent(view.getContext(), OtpVerificationActivity.class);
-                i.putExtra(Config.RESPONSE,responseDTO);
-                i.putExtra(Config.CNIC_ACC,CnicPostParams);
+                i.putExtra(Config.RESPONSE, bioMetricVerificationResponse);
+                i.putExtra(Config.CNIC_ACC, BioMetricVerificationPostParams);
                 startActivity(i);
                 clearFields();
             }

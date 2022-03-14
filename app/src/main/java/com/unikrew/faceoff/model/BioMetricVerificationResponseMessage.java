@@ -2,7 +2,7 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
-public class MessageDTO implements Serializable {
+public class BioMetricVerificationResponseMessage implements Serializable {
 	private String status="";
 	private String description="";
 	private String errorDetail="";
@@ -34,7 +34,7 @@ public class MessageDTO implements Serializable {
 	@Override
  	public String toString(){
 		return 
-			"MessageDTO{" + 
+			"BioMetricVerificationResponseMessage{" +
 			"status = '" + status + '\'' + 
 			",description = '" + description + '\'' + 
 			"}";

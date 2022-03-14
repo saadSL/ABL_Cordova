@@ -2,13 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unikrew.faceoff">
 <!--   below permissions to include in cordova plugin-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+<!--    <uses-permission android:name="android.permission.RECEIVE_SMS"/>-->
+<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
+<!--    <uses-permission android:name="android.permission.READ_SMS"/>-->
+<!--    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>-->
+<!--    <uses-permission android:name="android.permission.SEND_SMS"/>-->
     <!--    till here -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -51,7 +49,7 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-
+            android:theme="@style/AppTheme.NoActionBar"
             android:name="com.unikrew.faceoff.ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -60,12 +58,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="com.unikrew.faceoff.OTPReciever"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-            </intent-filter>
-        </receiver>
+<!--        <receiver android:name="com.unikrew.faceoff.OTPReciever"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

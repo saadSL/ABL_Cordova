@@ -1,19 +1,13 @@
 package com.unikrew.faceoff.ui;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,21 +15,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 
 import com.unikrew.faceoff.Config;
-import com.unikrew.faceoff.OTPReciever;
 import com.unikrew.faceoff.R;
-import com.unikrew.faceoff.model.CnicPostParams;
-import com.unikrew.faceoff.model.OtpPostParams;
-import com.unikrew.faceoff.model.OtpResponse;
-import com.unikrew.faceoff.model.ResponseDTO;
+import com.unikrew.faceoff.model.BioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationResponse;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -49,7 +39,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class OtpVerificationActivity extends AppCompatActivity implements TextWatcher {
+public class OtpVerificationActivity extends AppCompatActivity{
 
     private EditText otp1;
     private EditText otp2;
@@ -64,8 +54,8 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
 
     private TextView timer;
 
-    ResponseDTO res;
-    CnicPostParams cnicPostParams;
+    BioMetricVerificationResponse res;
+    BioMetricVerificationPostParams bioMetricVerificationPostParams;
 
     public static CountDownTimer countDownTimer;
 
@@ -78,25 +68,130 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
 
         bind();
         set();
-        requestPermission();
+        textChangeListeners();
+//        requestPermission();
 
-        new OTPReciever().setEditText_otp(
-                otp1,otp2,otp3,
-                otp4,otp5,otp6
-        );
+
+//        new OTPReciever().setEditText_otp(
+//                otp1,otp2,otp3,
+//                otp4,otp5,otp6
+//        );
 
         startTimer(Config.countDownTime);
     }
 
+    private void textChangeListeners() {
+        otp1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    otp2.requestFocus();
+                }
+            }
+        });
+
+        otp2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    otp3.requestFocus();
+                }
+            }
+        });
+
+        otp3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    otp4.requestFocus();
+                }
+            }
+        });
+
+        otp4.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    otp5.requestFocus();
+                }
+            }
+        });
+
+        otp5.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    otp6.requestFocus();
+                }
+            }
+        });
+    }
 
 
     private void set() {
-        res = (ResponseDTO) getIntent().getSerializableExtra(Config.RESPONSE);
+        res = (BioMetricVerificationResponse) getIntent().getSerializableExtra(Config.RESPONSE);
         mobileNumber.setText("03XX-XXXX"+res.getData().getMobileNo().substring(res.getData().getMobileNo().length()-3));
-        cnicPostParams = (CnicPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
-        otp6.addTextChangedListener(this);
+        bioMetricVerificationPostParams = (BioMetricVerificationPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
     }
 
     private void bind() {
@@ -151,20 +246,20 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
 
         String otp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
 
-        OtpPostParams otpPostParams = new OtpPostParams();
+        VerifyOtpBioMetricVerificationPostParams verifyOtpBioMetricVerificationPostParams = new VerifyOtpBioMetricVerificationPostParams();
 
-        otpPostParams.getData().setOtp(encrypt(otp));
-        otpPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
+        verifyOtpBioMetricVerificationPostParams.getData().setOtp(encrypt(otp));
+        verifyOtpBioMetricVerificationPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-       vm.postOtp(otpPostParams,res.getData().getAccessToken(),this);
+       vm.postOtp(verifyOtpBioMetricVerificationPostParams,res.getData().getAccessToken(),this);
 
 
-       vm.OtpSuccessLiveData.observe(this, new Observer<OtpResponse>() {
+       vm.OtpSuccessLiveData.observe(this, new Observer<VerifyOtpBioMetricVerificationResponse>() {
            @Override
-           public void onChanged(OtpResponse otpResponse) {
+           public void onChanged(VerifyOtpBioMetricVerificationResponse verifyOtpBioMetricVerificationResponse) {
                Intent i = new Intent(view.getContext(),FingerPrintActivity.class);
-               i.putExtra(Config.RESPONSE,otpResponse);
+               i.putExtra(Config.RESPONSE,res);
                i.putExtra("TOKEN",res.getData().getAccessToken());
                startActivity(i);
                countDownTimer.cancel();
@@ -211,12 +306,12 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
     public void sendOtp(View view) {
         CnicAvailabilityViewModel viewModel = new CnicAvailabilityViewModel();
         try {
-            viewModel.postCNIC(cnicPostParams,this);
+            viewModel.postCNIC(bioMetricVerificationPostParams,this);
             countDownTimer.start();
 
-            viewModel.CnicSuccessLiveData.observe(this, new Observer<ResponseDTO>() {
+            viewModel.CnicSuccessLiveData.observe(this, new Observer<BioMetricVerificationResponse>() {
                 @Override
-                public void onChanged(ResponseDTO responseDTO) {
+                public void onChanged(BioMetricVerificationResponse bioMetricVerificationResponse) {
                     showAlert("OTP Request Send");
                 }
             });
@@ -318,35 +413,14 @@ public class OtpVerificationActivity extends AppCompatActivity implements TextWa
         return true;
     }
 
-    private void requestPermission() {
-        if (ContextCompat.checkSelfPermission(OtpVerificationActivity.this, Manifest.permission.RECEIVE_SMS)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(OtpVerificationActivity.this,new String[]{
-                    Manifest.permission.RECEIVE_SMS
-            },100);
-        }
-    }
+//    private void requestPermission() {
+//        if (ContextCompat.checkSelfPermission(OtpVerificationActivity.this, Manifest.permission.RECEIVE_SMS)
+//                != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(OtpVerificationActivity.this,new String[]{
+//                    Manifest.permission.RECEIVE_SMS
+//            },100);
+//        }
+//    }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        System.out.println("Do Nothing!!!");
-    }
 
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        try {
-            if (otp6.getText().length()>0){
-                OTPVerification(btnVerify);
-            }
-
-        } catch (InterruptedException | UnsupportedEncodingException | BadPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        System.out.println("After Text changed : ");
-    }
 }

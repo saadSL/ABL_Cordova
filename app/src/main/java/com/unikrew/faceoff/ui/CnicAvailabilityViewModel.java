@@ -12,14 +12,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.unikrew.faceoff.Config;
 import com.unikrew.faceoff.R;
 import com.unikrew.faceoff.interfaces.RetrofitApi;
-import com.unikrew.faceoff.model.CnicPostParams;
-import com.unikrew.faceoff.model.OtpPostParams;
-import com.unikrew.faceoff.model.OtpResponse;
-import com.unikrew.faceoff.model.ResponseDTO;
+import com.unikrew.faceoff.model.BioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.unikrew.faceoff.model.UpdateBioMetricStatusPostParams;
-import com.unikrew.faceoff.model.UpdateBioMetricStatusResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationNadraPostParams;
+import com.unikrew.faceoff.model.BioMetricVerificationNadraResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,14 +37,14 @@ public class CnicAvailabilityViewModel {
 
     private RetrofitApi service;
 
-    public MutableLiveData<ResponseDTO> CnicSuccessLiveData = new MutableLiveData<ResponseDTO>();
+    public MutableLiveData<BioMetricVerificationResponse> CnicSuccessLiveData = new MutableLiveData<BioMetricVerificationResponse>();
     public MutableLiveData<String> CnicErrorLiveData = new MutableLiveData<String>();
     public MutableLiveData<String> CnicVerifiedLiveData = new MutableLiveData<String>();
 
-    public MutableLiveData<OtpResponse> OtpSuccessLiveData = new MutableLiveData<OtpResponse>();
+    public MutableLiveData<VerifyOtpBioMetricVerificationResponse> OtpSuccessLiveData = new MutableLiveData<VerifyOtpBioMetricVerificationResponse>();
     public MutableLiveData<String> OtpErrorLiveData = new MutableLiveData<String>();
 
-    public MutableLiveData<UpdateBioMetricStatusResponse> BioMetricStatusSuccessLiveData = new MutableLiveData<UpdateBioMetricStatusResponse>();
+    public MutableLiveData<BioMetricVerificationNadraResponse> BioMetricStatusSuccessLiveData = new MutableLiveData<BioMetricVerificationNadraResponse>();
     public MutableLiveData<String> BioMetricStatusErrorLiveData = new MutableLiveData<String>();
 
 
@@ -65,13 +65,13 @@ public class CnicAvailabilityViewModel {
         service = retrofit.create(RetrofitApi.class);
     }
 
-    public void postCNIC(CnicPostParams cd,Activity myActivity) throws InterruptedException {
+    public void postCNIC(BioMetricVerificationPostParams cd, Activity myActivity) throws InterruptedException {
         this.activity = myActivity;
 
-        Call<ResponseDTO> callableRes = service.CNICpost(cd);
-        callableRes.enqueue(new Callback<ResponseDTO>() {
+        Call<BioMetricVerificationResponse> callableRes = service.CNICpost(cd);
+        callableRes.enqueue(new Callback<BioMetricVerificationResponse>() {
             @Override
-            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+            public void onResponse(Call<BioMetricVerificationResponse> call, Response<BioMetricVerificationResponse> response) {
                 if (response.code()==200){
                     CnicSuccessLiveData.postValue(response.body());
                     loader.dismiss();
@@ -99,7 +99,7 @@ public class CnicAvailabilityViewModel {
                 }
             }
             @Override
-            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+            public void onFailure(Call<BioMetricVerificationResponse> call, Throwable t) {
                 CnicErrorLiveData.postValue(t.getMessage());
                 loader.dismiss();
             }
@@ -108,12 +108,12 @@ public class CnicAvailabilityViewModel {
         loader.show();
     }
 
-    public void postOtp(OtpPostParams postParams,String accessToken,Activity myActivity) throws InterruptedException{
+    public void postOtp(VerifyOtpBioMetricVerificationPostParams postParams, String accessToken, Activity myActivity) throws InterruptedException{
         this.activity = myActivity;
-        Call<OtpResponse> callableRes = service.OtpPost(postParams,"Bearer "+accessToken);
-        callableRes.enqueue(new Callback<OtpResponse>() {
+        Call<VerifyOtpBioMetricVerificationResponse> callableRes = service.OtpPost(postParams,"Bearer "+accessToken);
+        callableRes.enqueue(new Callback<VerifyOtpBioMetricVerificationResponse>() {
             @Override
-            public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
+            public void onResponse(Call<VerifyOtpBioMetricVerificationResponse> call, Response<VerifyOtpBioMetricVerificationResponse> response) {
                 if (response.code()==200){
                     OtpSuccessLiveData.postValue(response.body());
                     loader.dismiss();
@@ -131,7 +131,7 @@ public class CnicAvailabilityViewModel {
                 }
             }
             @Override
-            public void onFailure(Call<OtpResponse> call, Throwable t) {
+            public void onFailure(Call<VerifyOtpBioMetricVerificationResponse> call, Throwable t) {
                 System.out.println(t.getLocalizedMessage());
                 OtpErrorLiveData.postValue(t.getMessage());
                 loader.dismiss();
@@ -141,12 +141,12 @@ public class CnicAvailabilityViewModel {
         loader.show();
     }
 
-    public void updateBioMetricStatus(UpdateBioMetricStatusPostParams pp,String accessToken,Activity myActivity){
+    public void updateBioMetricStatus(BioMetricVerificationNadraPostParams pp, String accessToken, Activity myActivity){
         this.activity = myActivity;
-        Call<UpdateBioMetricStatusResponse> callableRes = service.UpdateBioMetricStatus(pp,"Bearer "+accessToken);
-        callableRes.enqueue(new Callback<UpdateBioMetricStatusResponse>() {
+        Call<BioMetricVerificationNadraResponse> callableRes = service.UpdateBioMetricStatus(pp,"Bearer "+accessToken);
+        callableRes.enqueue(new Callback<BioMetricVerificationNadraResponse>() {
             @Override
-            public void onResponse(Call<UpdateBioMetricStatusResponse> call, Response<UpdateBioMetricStatusResponse> response) {
+            public void onResponse(Call<BioMetricVerificationNadraResponse> call, Response<BioMetricVerificationNadraResponse> response) {
                 if (response.code()==200){
                     BioMetricStatusSuccessLiveData.postValue(response.body());
                     loader.dismiss();
@@ -164,7 +164,7 @@ public class CnicAvailabilityViewModel {
                 }
             }
             @Override
-            public void onFailure(Call<UpdateBioMetricStatusResponse> call, Throwable t) {
+            public void onFailure(Call<BioMetricVerificationNadraResponse> call, Throwable t) {
                 BioMetricStatusErrorLiveData.postValue(t.getMessage());
                 loader.dismiss();
             }

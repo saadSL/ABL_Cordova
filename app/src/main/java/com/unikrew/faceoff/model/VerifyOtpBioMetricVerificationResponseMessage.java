@@ -2,10 +2,18 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
-public class UpdateBioMetricStatusResponseMessage implements Serializable{
-    private String status="";
-    private String description="";
-    private String errorDetail="";
+public class VerifyOtpBioMetricVerificationResponseMessage implements Serializable {
+    private String status;
+    private String description;
+    private String errorDetail;
+
+    public String getErrorDetail() {
+        return errorDetail;
+    }
+
+    public void setErrorDetail(String errorDetail) {
+        this.errorDetail = errorDetail;
+    }
 
     public String getStatus() {
         return status;
@@ -23,21 +31,14 @@ public class UpdateBioMetricStatusResponseMessage implements Serializable{
         this.description = description;
     }
 
-    public String getErrorDetail() {
-        return errorDetail;
-    }
-
-    public void setErrorDetail(String errorDetail) {
-        this.errorDetail = errorDetail;
-    }
-
     @Override
     public String toString(){
         return
-            "OtpResponseMessage{" +
+            "VerifyOtpBioMetricVerificationResponseMessage{" +
                 "status = '" + status + '\'' +
                 ",description = '" + description + '\'' +
                 ",errorDetail = '" + errorDetail + '\'' +
             "}";
     }
+
 }

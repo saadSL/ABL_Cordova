@@ -8,11 +8,6 @@
     <string name="otp_inst">Enter <b>OTP</b> recieved on your provided mobile number</string>
     <string name="otp_insta">Enter <b>OTP</b> recieved on your provided mobile number</string>
     <string name="please_grant_external_storage_permissions">In order to use this application, please grant External storage permission.</string>
-    <string name="cnic_instruction_text">
-        <ul>
-            <li>abcd</li>
-            <li>abcd</li>
-            <li>abcd</li>
-        </ul>
-    </string>
+    <string name="preferred_banking_method_prompt">Please Select Your Preferred Baning Method</string>
+    <string name="type_of_account_prompt">Please Select Type Of Account</string>
 </resources>

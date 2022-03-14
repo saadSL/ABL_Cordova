@@ -1,11 +1,11 @@
 package com.unikrew.faceoff.interfaces;
 
-import com.unikrew.faceoff.model.CnicPostParams;
-import com.unikrew.faceoff.model.OtpPostParams;
-import com.unikrew.faceoff.model.OtpResponse;
-import com.unikrew.faceoff.model.ResponseDTO;
-import com.unikrew.faceoff.model.UpdateBioMetricStatusPostParams;
-import com.unikrew.faceoff.model.UpdateBioMetricStatusResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationPostParams;
+import com.unikrew.faceoff.model.VerifyOtpBioMetricVerificationResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationResponse;
+import com.unikrew.faceoff.model.BioMetricVerificationNadraPostParams;
+import com.unikrew.faceoff.model.BioMetricVerificationNadraResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,12 +14,12 @@ import retrofit2.http.POST;
 
 public interface RetrofitApi {
     @POST("/RdaConsumer/api/consumer/public/bio-metric-verification")
-    Call<ResponseDTO> CNICpost(@Body CnicPostParams cd);
+    Call<BioMetricVerificationResponse> CNICpost(@Body BioMetricVerificationPostParams cd);
 
     @POST("/RdaConsumer/api/consumer/verify-otp-bio-metric-verification")
-    Call<OtpResponse> OtpPost(@Body OtpPostParams pp, @Header("Authorization") String accessToken);
+    Call<VerifyOtpBioMetricVerificationResponse> OtpPost(@Body VerifyOtpBioMetricVerificationPostParams pp, @Header("Authorization") String accessToken);
 
-    @POST("/RdaConsumer/api/consumer/update-bio-metric-verification-status")
-    Call<UpdateBioMetricStatusResponse> UpdateBioMetricStatus(@Body UpdateBioMetricStatusPostParams pp, @Header("Authorization") String accessToken);
+    @POST("/RdaConsumer/api/consumer/bio-metric-verification-nadra")
+    Call<BioMetricVerificationNadraResponse> UpdateBioMetricStatus(@Body BioMetricVerificationNadraPostParams pp, @Header("Authorization") String accessToken);
 
 }

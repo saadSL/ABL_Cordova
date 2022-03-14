@@ -2,7 +2,7 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 
-public class DataDTO implements Serializable {
+public class BioMetricVerificationResponseData implements Serializable {
 	private Object userId=null;
 	private int entityId=0;
 	private String fullName="";
@@ -14,9 +14,36 @@ public class DataDTO implements Serializable {
 	private String accessToken="";
 	private boolean existingCustomer=false;
 	private boolean guestConsumer=false;
+	private int accountInfoId=0;
 	private int sessionTimeout=0;
 	private Object menus=null;
 	private String mobileNo ="";
+	private String area ="sindh";
+	private String accountType ="Current";
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public int getAccountInfoId() {
+		return accountInfoId;
+	}
+
+	public void setAccountInfoId(int accountInfoId) {
+		this.accountInfoId = accountInfoId;
+	}
 
 	public String getMobileNo() {
 		return mobileNo;
@@ -133,7 +160,7 @@ public class DataDTO implements Serializable {
 	@Override
  	public String toString(){
 		return 
-			"DataDTO{" + 
+			"BioMetricVerificationResponseData{" +
 			"userId = '" + userId + '\'' + 
 			",entityId = '" + entityId + '\'' + 
 			",fullName = '" + fullName + '\'' + 
@@ -145,9 +172,12 @@ public class DataDTO implements Serializable {
 			",accessToken = '" + accessToken + '\'' + 
 			",existingCustomer = '" + existingCustomer + '\'' + 
 			",guestConsumer = '" + guestConsumer + '\'' + 
-			",sessionTimeout = '" + sessionTimeout + '\'' + 
+			",accountInfoId = '" + accountInfoId + '\'' +
+			",sessionTimeout = '" + sessionTimeout + '\'' +
 			",menus = '" + menus + '\'' +
 			",contact = '" + mobileNo + '\'' +
+			",area = '" + area + '\'' +
+			",accountType = '" + accountType + '\'' +
 			"}";
 		}
 }
