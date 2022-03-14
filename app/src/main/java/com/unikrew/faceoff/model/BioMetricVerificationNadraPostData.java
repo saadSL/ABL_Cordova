@@ -2,26 +2,28 @@ package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class BioMetricVerificationNadraPostData implements Serializable {
-    private String rdaCustomerProfileId="";
-    private String rdaCustomerAccountInfoId="";
-    private String cnic="";
+    private String rdaCustomerProfileId = "";
+    private String rdaCustomerAccountInfoId = "";
+    private String cnic = "";
 
-    /* saad's work for finger prints on line 11 and line 81 and line 18 - 24*/
-    private Array fingerprints = null;
-    private String templateType="";
-    private String contactNumber="";
-    private String area="";
-    private String accountType="";
-
-    public Array getFingerprints() {
+    public ArrayList<FingerPrintData> getFingerprints() {
         return fingerprints;
     }
 
-    public void setFingerprints(Array fingerprints) {
+    public void setFingerprints(ArrayList<FingerPrintData> fingerprints) {
         this.fingerprints = fingerprints;
     }
+
+    /* saad's work for finger prints on line 11 and line 81 and line 18 - 24*/
+    private ArrayList<FingerPrintData> fingerprints = new ArrayList<FingerPrintData>();
+    private String templateType = "";
+    private String contactNumber = "";
+    private String area = "";
+    private String accountType = "";
+
 
     public String getCnic() {
         return cnic;
@@ -80,17 +82,17 @@ public class BioMetricVerificationNadraPostData implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return
                 "BioMetricVerificationNadraPostData{" +
-                    "rdaCustomerProfileId = '" + rdaCustomerProfileId + '\'' +
-                    ",rdaCustomerAccountInfoId = '" + rdaCustomerAccountInfoId + '\'' +
-                    ",cnic = '" + cnic + '\'' +
-                    ",fingerprints = '" + fingerprints + '\'' +
-                    ",templateType = '" + templateType + '\'' +
-                    ",contactNumber = '" + contactNumber + '\'' +
-                    ",area = '" + area + '\'' +
-                    ",accountType = '" + accountType + '\'' +
-                "}";
+                        "rdaCustomerProfileId = '" + rdaCustomerProfileId + '\'' +
+                        ",rdaCustomerAccountInfoId = '" + rdaCustomerAccountInfoId + '\'' +
+                        ",cnic = '" + cnic + '\'' +
+                        ",fingerprints = '" + fingerprints + '\'' +
+                        ",templateType = '" + templateType + '\'' +
+                        ",contactNumber = '" + contactNumber + '\'' +
+                        ",area = '" + area + '\'' +
+                        ",accountType = '" + accountType + '\'' +
+                        "}";
     }
 }
