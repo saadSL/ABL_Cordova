@@ -3,23 +3,23 @@ package com.unikrew.faceoff.model;
 import java.io.Serializable;
 
 public class BioMetricVerificationNadraResponseData implements Serializable {
-    private int responseCode =0;
-    private String responseMsg ="";
+    private String responseCode = "";
+    private String responseDescription = "";
 
-    public int getResponseCode() {
+    public String getResponseCode() {
         return responseCode;
     }
 
-    public void setResponseCode(int responseCode) {
+    public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
     }
 
-    public String getResponseMsg() {
-        return responseMsg;
+    public String getResponseDescription() {
+        return responseDescription;
     }
 
-    public void setResponseMsg(String responseMsg) {
-        this.responseMsg = responseMsg;
+    public void setResponseDescription(String responseDescription) {
+        this.responseDescription = responseDescription;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class BioMetricVerificationNadraResponseData implements Serializable {
         return
             "BioMetricVerificationNadraResponseData{" +
                 "responseCode = '" + responseCode + '\'' +
-                ",responseMsg = '" + responseMsg + '\'' +
+                ",responseDescription = '" + responseDescription + '\'' +
             "}";
     }
 }

@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -49,6 +50,7 @@ public class OtpVerificationActivity extends AppCompatActivity{
     private EditText otp6;
 
     private Button btnVerify;
+    private ImageView ivBack;
 
     private TextView mobileNumber;
 
@@ -185,6 +187,27 @@ public class OtpVerificationActivity extends AppCompatActivity{
                 }
             }
         });
+
+        otp6.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editable.toString();
+
+                if (text.length()==1){
+                    OTPVerification(btnVerify);
+                }
+            }
+        });
     }
 
 
@@ -192,6 +215,7 @@ public class OtpVerificationActivity extends AppCompatActivity{
         res = (BioMetricVerificationResponse) getIntent().getSerializableExtra(Config.RESPONSE);
         mobileNumber.setText("03XX-XXXX"+res.getData().getMobileNo().substring(res.getData().getMobileNo().length()-3));
         bioMetricVerificationPostParams = (BioMetricVerificationPostParams) getIntent().getSerializableExtra(Config.CNIC_ACC);
+        ivBack.setVisibility(View.GONE);
     }
 
     private void bind() {
@@ -202,12 +226,14 @@ public class OtpVerificationActivity extends AppCompatActivity{
         otp5 = findViewById(R.id.et_otp5);
         otp6 = findViewById(R.id.et_otp6);
 
-
         btnVerify = findViewById(R.id.btn_verify);
 
         mobileNumber = findViewById(R.id.tv_mobileNumber);
 
         timer = findViewById(R.id.timer);
+
+        ivBack = findViewById(R.id.iv_back);
+
     }
 
     private void startTimer(int totalTime) {
@@ -233,7 +259,7 @@ public class OtpVerificationActivity extends AppCompatActivity{
         }.start();
     }
 
-    public void OTPVerification(View view) throws InterruptedException, NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public void OTPVerification(View view) {
         if (isEmpty(otp1) || isEmpty(otp4) ||
                 isEmpty(otp2) || isEmpty(otp5) ||
                 isEmpty(otp3) || isEmpty(otp6)) {
@@ -252,10 +278,15 @@ public class OtpVerificationActivity extends AppCompatActivity{
         verifyOtpBioMetricVerificationPostParams.getData().setRdaCustomerProfileId(""+res.getData().getEntityId());
 
        CnicAvailabilityViewModel vm = new CnicAvailabilityViewModel();
-       vm.postOtp(verifyOtpBioMetricVerificationPostParams,res.getData().getAccessToken(),this);
+
+       try {
+            vm.postOtp(verifyOtpBioMetricVerificationPostParams,res.getData().getAccessToken(),this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
-       vm.OtpSuccessLiveData.observe(this, new Observer<VerifyOtpBioMetricVerificationResponse>() {
+        vm.OtpSuccessLiveData.observe(this, new Observer<VerifyOtpBioMetricVerificationResponse>() {
            @Override
            public void onChanged(VerifyOtpBioMetricVerificationResponse verifyOtpBioMetricVerificationResponse) {
                Intent i = new Intent(view.getContext(),FingerPrintActivity.class);

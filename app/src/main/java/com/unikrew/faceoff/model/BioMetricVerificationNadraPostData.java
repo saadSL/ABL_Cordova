@@ -1,7 +1,6 @@
 package com.unikrew.faceoff.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BioMetricVerificationNadraPostData implements Serializable {
@@ -21,7 +20,7 @@ public class BioMetricVerificationNadraPostData implements Serializable {
     private ArrayList<FingerPrintData> fingerprints = new ArrayList<FingerPrintData>();
     private String templateType = "";
     private String contactNumber = "";
-    private String area = "";
+    private String areaName = "";
     private String accountType = "";
 
 
@@ -49,12 +48,12 @@ public class BioMetricVerificationNadraPostData implements Serializable {
         this.contactNumber = contactNumber;
     }
 
-    public String getArea() {
-        return area;
+    public String getAreaName() {
+        return areaName;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public String getAccountType() {
@@ -91,7 +90,7 @@ public class BioMetricVerificationNadraPostData implements Serializable {
                         ",fingerprints = '" + fingerprints + '\'' +
                         ",templateType = '" + templateType + '\'' +
                         ",contactNumber = '" + contactNumber + '\'' +
-                        ",area = '" + area + '\'' +
+                        ",areaName = '" + areaName + '\'' +
                         ",accountType = '" + accountType + '\'' +
                         "}";
     }

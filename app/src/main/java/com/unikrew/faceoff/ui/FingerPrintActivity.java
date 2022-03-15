@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,7 +50,7 @@ public class FingerPrintActivity extends AppCompatActivity {
     private LinearLayout liSuccess;
     private TextView tvSuccessMsg;
 
-    int code = 0;
+    String code = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,6 +227,7 @@ public class FingerPrintActivity extends AppCompatActivity {
 
         }
 
+        Log.d("FingerPrintArray", fingerprints.toString());
 
         BioMetricVerificationResponse res = (BioMetricVerificationResponse) getIntent().getSerializableExtra(Config.RESPONSE);
 
@@ -235,7 +237,7 @@ public class FingerPrintActivity extends AppCompatActivity {
         pp.getData().setFingerprints(fingerprints);
         pp.getData().setTemplateType(Config.templateType);
         pp.getData().setContactNumber(res.getData().getMobileNo());
-        pp.getData().setArea(res.getData().getArea());
+        pp.getData().setAreaName(res.getData().getArea());
         pp.getData().setAccountType(res.getData().getAccountType());
 
         System.out.print(pp.getData());
@@ -247,7 +249,7 @@ public class FingerPrintActivity extends AppCompatActivity {
             @Override
             public void onChanged(BioMetricVerificationNadraResponse bioMetricVerificationNadraResponse) {
                 code = bioMetricVerificationNadraResponse.getData().getResponseCode();
-                if (code == 100) {
+                if (code.equals("100")) {
                     submitFingerPrint();
                 } else {
                     showAlert(Config.errorType, "Not Approved.Please Scan Again");
@@ -317,10 +319,10 @@ public class FingerPrintActivity extends AppCompatActivity {
     }
 
     public void changeStatus(View view) {
-        if (code == 0) {
-            code = 100;
+        if (code.equals("0")) {
+            code = "100";
         } else {
-            code = 0;
+            code = "0";
         }
     }
 }
